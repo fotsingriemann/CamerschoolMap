@@ -1,0 +1,343 @@
+{% extends 'fontend/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    @media (max-width: 768px) {
+        h1, h2, h3, h4, h5, h6, p, label, .card-title, .card-text {
+            font-size: 16px !important; /* Taille uniforme */
+        }
+    
+        .btn {
+            font-size: 14px !important;
+        }
+    
+        .review-text, .review-author, .review-date {
+            font-size: 14px !important;
+        }
+    
+        .container, .container_avis {
+            padding: 10px;
+        }
+    }
+    
+    
+</style>
+<section id="independence-history" class="container py-5">
+    <div class="row">
+        <!-- Title Section -->
+        <div class="col-12 text-center mb-4">
+            <h2 class="display-4 font-weight-bold">L'Histoire de l'Indépendance du Cameroun</h2>
+            <p class="lead">Un voyage vers la souveraineté, marquée par des luttes et des sacrifices, qui ont forgé
+                l'unité du pays.</p>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="font-weight-bold">Le Début de la Colonisation</h3>
+            <p>En 1884, le Cameroun devient une colonie allemande avant de passer sous tutelle française et britannique
+                après la Première Guerre mondiale. La résistance à la domination coloniale a été un facteur clé de
+                l’émergence du nationalisme camerounais.</p>
+            <i class="fas fa-globe-africa fa-2x text-primary"></i> <small>Colonisation Allemande et Mandat
+                International</small>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'fontend/images/col.jpg' %}" class="img-fluid rounded" alt="Colonisation du Cameroun">
+            <!-- Suggestion d'image : une carte ancienne du Cameroun pendant la colonisation -->
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <img src="{% static 'fontend/images/col2.jpg' %}" class="img-fluid rounded" alt="Lutte pour l'indépendance">
+            <!-- Suggestion d'image : photo historique d'une manifestation ou d'une révolte -->
+        </div>
+        <div class="col-md-6">
+            <h3 class="font-weight-bold">La Lutte pour l'Indépendance</h3>
+            <p>Après la Seconde Guerre mondiale, des mouvements tels que l'UPC, dirigée par Ruben Um Nyobe, ont combattu
+                la domination française pour obtenir l'indépendance totale. Ces luttes ont été marquées par des
+                répressions violentes et des sacrifices
+                énormes.
+            </p>
+            <i class="fas fa-fist-raised fa-2x text-danger"></i> <small>Lutte et Résistance</small>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3 class="font-weight-bold">L'Indépendance et Réunification</h3>
+            <p>Le 1er janvier 1960, le Cameroun accède à l'indépendance sous la direction d'Ahmadou Ahidjo. En 1961, le
+                pays se réunit officiellement, après un référendum, pour former une nation unifiée, malgré les tensions
+                entre les zones francophones
+                et anglophones.</p>
+            <i class="fas fa-handshake fa-2x text-success"></i> <small>Indépendance et Réunification</small>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'fontend/images/col3.jpg' %}" class="img-fluid rounded" alt="Réunification du Cameroun">
+            <!-- Suggestion d'image : photo des leaders du Cameroun après l'indépendance -->
+        </div>
+    </div>
+</section>
+
+<!-- Section Localisation Géographique du Cameroun -->
+<section class="container py-5">
+    <!-- Titre principal -->
+    <h1 class="text-center mb-4 display-4 font-weight-bold">Géolocalisation et Atouts du Cameroun</h1>
+    <p class="text-left">
+        Le Cameroun, situé au cœur de l'Afrique centrale, bénéficie d’une position stratégique qui lui permet de jouer
+        un rôle important sur le continent. Il partage des frontières avec six pays, ce qui facilite les échanges
+        commerciaux et culturels avec ses
+        voisins. L’accès à l’océan Atlantique permet au Cameroun de développer son commerce maritime et de promouvoir
+        son secteur touristique. De plus, son climat et sa diversité géographique en font un lieu de choix pour le
+        développement de l’agriculture
+        et d'autres secteurs économiques.
+    </p>
+    <div class="row">
+        <!-- Tableau des statistiques du Cameroun -->
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th><i class="fas fa-info-circle"></i> Informations</th>
+                        <th><i class="fas fa-flag"></i> Détails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-ruler"></i> Superficie</td>
+                        <td>475 442 km²</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-language"></i> Langues parlées</td>
+                        <td>Français, Anglais</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-money-bill-wave"></i> Monnaie</td>
+                        <td>Franc CFA (XAF)</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-users"></i> Nombre d'habitants</td>
+                        <td>Environ 27 millions</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-water"></i> Accès à l'océan</td>
+                        <td>Oui, accès à l'océan Atlantique</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Image illustrant la géolocalisation du Cameroun -->
+        <div class="col-md-6">
+            <img src="{% static 'fontend/images/camer.png' %}" class="img-fluid">
+        </div>
+    </div>
+
+    <!-- Informations sur les pays limitrophes -->
+    <!-- Carte des pays limitrophes du Cameroun -->
+    <h3 class="text-center mt-5 mb-4">Les Pays Limitrophes du Cameroun</h3>
+    <div class="row">
+        <!-- Nigeria -->
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header text-center text-white bg-success"> République Centrafricaine</h5>
+                <img src="{% static 'fontend/images/rc.jpg' %}" alt="République Centrafricaine" class="card-img-top" />
+                <div class="card-body">
+                    <p class="card-text"> La République Centrafricaine entretient des relations commerciales et
+                        humanitaires avec le Cameroun, notamment en matière de soutien aux réfugiés et de collaboration
+                        dans la lutte contre les groupes armés.</p>
+                    <ul>
+                        <li><i class="fas fa-ruler text-warning"></i> Superficie : 622,984 km²</li>
+                        <li><i class="fas fa-users text-warning"></i> Nombre d'habitants : Environ 5 millions.</li>
+                        <li><i class="fas fa-language text-warning"></i> Langues parlées : Sango, Français.</li>
+                        <li><i class="fas fa-money-bill-wave text-warning"></i> Monnaie : Franc CFA (XAF)</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- République Démocratique du Congo (RDC) -->
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header text-center bg-success text-white"> République Démocratique du Congo (RDC)
+                </h5>
+                <img src="{% static 'fontend/images/congo.jpg' %}" alt="RDC" class="card-img-top" />
+                <div class="card-body">
+                    <p class="card-text">Les relations entre le Cameroun et la RDC sont marquées par des échanges
+                        commerciaux et des partenariats dans les secteurs miniers et agricoles.</p>
+                    <ul>
+                        <li><i class="fas fa-ruler text-warning"></i> Superficie : 2,345,409 km²</li>
+                        <li><i class="fas fa-users text-warning"></i> Nombre d'habitants : 95 millions</li>
+                        <li><i class="fas fa-language text-warning"></i> Langues parlées : Français, Lingala, Kikongo,
+                            Tshiluba</li>
+                        <li><i class="fas fa-money-bill-wave text-warning"></i> Monnaie : Franc congolais (CDF)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tchad -->
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header text-center text-white  bg-success"> Guinée Équatoriale</h5>
+                <img src="{% static 'fontend/images/guinea-ecuatorial.jpg' %}" alt="Guinée Équatoriale"
+                    class="card-img-top" />
+                <div class="card-body">
+                    <p class="card-text"> La Guinée Équatoriale et le Cameroun ont une relation principalement
+                        économique, avec des échanges commerciaux et un accord de coopération dans le domaine de la
+                        pêche, de l’énergie et des infrastructures. Les deux pays coopèrent
+                        également dans les organisations régionales comme la CEMAC..</p>
+                    <ul>
+                        <li><i class="fas fa-ruler text-warning"></i> Superficie : 28,051 km²</li>
+                        <li><i class="fas fa-users text-warning"></i> Nombre d'habitants : Environ 1,5 million.</li>
+                        <li><i class="fas fa-language text-warning"></i> Langues parlées : Espagnol, Français,
+                            Portugais.
+                        </li>
+                        <li><i class="fas fa-money-bill-wave text-warning"></i> Monnaie : Franc CFA (XAF)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header text-center bg-success text-white"> Gabon</h5>
+                <img src="{% static 'fontend/images/gabon.png' %}" alt="Tchad" class="card-img-top" />
+                <div class="card-body">
+                    <p class="card-text">Le Gabon et le Cameroun partagent une frontière à l'ouest et entretiennent des
+                        relations diplomatiques stables. Les deux pays sont partenaires dans la Communauté Économique et
+                        Monétaire de l'Afrique Centrale (CEMAC) et collaborent
+                        dans les domaines de l'exploitation des ressources naturelles et du commerce..</p>
+                    <ul>
+                        #e96703
+                        <li><i class="fas fa-ruler text-warning"></i> Superficie : 267,668 km²</li>
+                        <li><i class="fas fa-users text-warning"></i> Nombre d'habitants : Environ 2,3 millions.
+                        </li>
+                        <li><i class="fas fa-language text-warning"></i> Langues parlées : Français, avec des langues
+                            locales comme le Fang et le Myene.</li>
+                        <li><i class="fas fa-money-bill-wave text-warning"></i> Monnaie : Franc CFA (XAF)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header text-center bg-success text-white"> Tchad</h5>
+                <img src="{% static 'fontend/images/thad.png' %}" alt="Tchad" class="card-img-top" />
+                <div class="card-body">
+                    <p class="card-text">Le Tchad et le Cameroun collaborent dans plusieurs projets régionaux, en
+                        particulier dans les domaines de l'énergie et du développement infra-structurel.</p>
+                    <ul>
+                        <li><i class="fas fa-ruler text-warning"></i> Superficie : 1,284,000 km²</li>
+                        <li><i class="fas fa-users text-warning"></i> Nombre d'habitants : 17 millions</li>
+                        <li><i class="fas fa-language text-warning"></i> Langues parlées : Arabe, Français</li>
+                        <li><i class="fas fa-money-bill-wave text-warning"></i> Monnaie : Franc CFA (XAF)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card my-2">
+                <h5 class="card-header text-center bg-success text-white">Nigeria</h5>
+                <img src="{% static 'fontend/images/nigeria.png' %}" alt="Nigeria" class="card-img-top" />
+                <div class="card-body">
+                    <p class="card-text">Le Cameroun et le Nigeria entretiennent des relations commerciales et
+                        culturelles étroites. Ces deux pays sont également des acteurs majeurs dans la région de la
+                        CEEAC (Communauté Economique des Etats de l'Afrique Centrale).</p>
+                    <ul>
+                        <li><i class="fas fa-ruler text-warning"></i> Superficie : 923,768 km²</li>
+                        <li><i class="fas fa-users text-warning"></i> Nombre d'habitants : 211 millions</li>
+                        <li><i class="fas fa-language text-warning"></i> Langues parlées : Anglais, Hausa, Yoruba, Igbo
+                        </li>
+                        <li><i class="fas fa-money-bill-wave text-warning"></i> Monnaie : Naira (NGN)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ville -->
+<!-- Regions Section -->
+<section class="regions-section bg-secondary">
+    <div class="container">
+        <!-- Title -->
+        <h1 class="regions-title">Les 10 Régions du Cameroun</h1>
+        <!-- Description -->
+        <p class="regions-description text-white">
+            Le Cameroun, souvent appelé "Afrique en miniature", est un pays riche en diversité culturelle, géographique
+            et climatique. Chaque région offre une expérience unique, allant des plages paradisiaques aux montagnes
+            majestueuses, des savanes désertiques aux
+            forêts tropicales luxuriantes. Découvrez la richesse de ce pays à travers ses 10 régions.
+        </p>
+        <!-- Regions Grid -->
+        <div class="row">
+            {% for ville in page_obj %}
+            <div class="col-md-6 col-sm-6 mb-4">
+                <div class="region-card">
+                    <a href="#">
+                        <img src="{% static ville.image %}" alt="{{ ville.name }}" class="img-fluid">
+                        <div class="region-overlay">
+                            <h5>{{ ville.name }}</h5>
+                            <p>cliquer sur <strong class="text-success"> visiter une ville </strong> dans la navbar pour
+                                plus d'information</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-12 mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Précédent">
+                            &#8592; Précédent
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&#8592; Précédent</span>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Suivant">
+                                Suivant &#8594;
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Suivant &#8594;</span>
+                        </li>
+                        {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+    </div>
+    </div>
+
+    </div>
+</section>
+
+{% endblock %}

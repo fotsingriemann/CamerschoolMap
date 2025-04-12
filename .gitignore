@@ -1,0 +1,36 @@
+    # Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+*.pot
+*.pyc
+
+# Environnement virtuel
+.venv/
+venv/
+
+# Fichiers de configuration IDE
+.vscode/
+.idea/
+
+# Configuration de l'éditeur
+*.swp
+*~
+.DS_Store
+
+# Fichiers de secrets
+*.env

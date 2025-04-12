@@ -1,0 +1,23 @@
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Voulez-vous vraiment vous déconnecter ?",
+                text: "Vous devrez vous reconnecter pour accéder à votre compte.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Oui, déconnectez-moi",
+                cancelButtonText: "Annuler"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'connexion' %}";
+                } else {
+                    window.location.href = "{% url 'index' %}";  // Redirige vers la page d'accueil
+                }
+            });
+        });
+    </script>

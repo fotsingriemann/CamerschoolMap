@@ -1,0 +1,208 @@
+{% extends 'fontend/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Hero Section Contact -->
+<section class="contact-hero bg-primary bg-gradient py-5">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right">
+                <h1 class="display-5 fw-bold text-white mb-3">Contactez-nous</h1>
+                <p class="lead text-white mb-4">Une question, une suggestion ou une demande de partenariat ? Notre équipe est à votre écoute.</p>
+                <div class="d-flex justify-content-center justify-content-lg-start">
+                    <a href="#contact-form" class="btn btn-light btn-lg px-4 me-3">
+                        <i class="fas fa-paper-plane me-2"></i>Envoyer un message
+                    </a>
+                    <a href="tel:+237655969010" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-phone-alt me-2"></i>Nous appeler
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block" data-aos="fade-left">
+                <img src="{% static 'fontend/images/contact-illustration' %}" alt="Contact CamerSchoolMap" style="width: 50%;" class="img-fluid rounded-circle">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <!-- Adresse -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 shadow-sm border-0 text-center p-4">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt fa-2x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Notre siège</h3>
+                    <p class="text-muted mb-0">Cameroun<br>Yaoundé, BP 1234</p>
+                </div>
+            </div>
+            
+            <!-- Email -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 shadow-sm border-0 text-center p-4">
+                    <div class="icon-box bg-success bg-opacity-10 text-success mx-auto mb-4">
+                        <i class="fas fa-envelope-circle-check text-white fa-2x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Email</h3>
+                    <p class="text-muted mb-1">camer<strong>school</strong>map@gmail.com</p>
+                    <a href="mailto:camer<strong>school</strong>map@gmail.com" class="btn btn-sm btn-outline-success mt-2">
+                        <i class="fas fa-envelope me-1"></i>Nous écrire
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Téléphone -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 shadow-sm border-0 text-center p-4">
+                    <div class="icon-box bg-info bg-opacity-10 text-info mx-auto mb-4">
+                        <i class="fas fa-phone-alt text-white fa-2x"></i>
+                    </div>
+                    <h3 class="h5 mb-3">Téléphone</h3>
+                    <p class="text-muted mb-1">(+237) 655 96 90 10</p>
+                    <p class="text-muted mb-1">(+237) 682 82 90 49</p>
+                    <div class="d-flex justify-content-center gap-2 mt-2">
+                        <a href="tel:+237655969010" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-phone me-1"></i>Appeler
+                        </a>
+                        <a href="https://wa.me/237655969010" class="btn btn-sm btn-outline-success">
+                            <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section id="contact-form" class="py-5 bg-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0" data-aos="zoom-in">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h2 class="h4 mb-0 text-center"><i class="fas fa-paper-plane me-2"></i>Formulaire de contact</h2>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <form method="POST" action="{% url 'contact' %}" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" required>
+                                        <label for="nom"><i class="fas fa-user me-2 text-primary"></i>Nom *</label>
+                                        <div class="invalid-feedback">Veuillez entrer votre nom</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" data-aos="fade-left" data-aos-delay="100">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prénom">
+                                        <label for="prenom"><i class="fas fa-user me-2 text-primary"></i>Prénom</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" data-aos="fade-right" data-aos-delay="150">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Votre email" required>
+                                        <label for="email"><i class="fas fa-envelope me-2 text-primary"></i>Email *</label>
+                                        <div class="invalid-feedback">Veuillez entrer une adresse email valide</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" data-aos="fade-left" data-aos-delay="150">
+                                    <div class="form-floating mb-3">
+                                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Votre téléphone">
+                                        <label for="phone"><i class="fas fa-phone-alt me-2 text-primary"></i>Téléphone</label>
+                                    </div>
+                                </div>
+                                <div class="col-12" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Objet du message" required>
+                                        <label for="subject"><i class="fas fa-tag me-2 text-primary"></i>Objet *</label>
+                                        <div class="invalid-feedback">Veuillez préciser l'objet de votre message</div>
+                                    </div>
+                                </div>
+                                <div class="col-12" data-aos="fade-up" data-aos-delay="250">
+                                    <div class="form-floating mb-4">
+                                        <textarea class="form-control" id="message" name="message" placeholder="Votre message" style="height: 150px" required></textarea>
+                                        <label for="message"><i class="fas fa-comment-dots me-2 text-primary"></i>Message *</label>
+                                        <div class="invalid-feedback">Veuillez écrire votre message</div>
+                                    </div>
+                                </div>
+                                <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
+                                        <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-0">
+    <div class="container-fluid px-0">
+        <div class="ratio ratio-21x9">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.490347864359!2d11.518860314757812!3d3.866865997276827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x108bc8f5e5e8a3a9%3A0x3b6f4f4b4c4d4e4f!2sYaound%C3%A9%2C%20Cameroun!5e0!3m2!1sfr!2sfr!4v1620000000000!5m2!1sfr!2sfr" 
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<style>
+    .contact-hero {
+        background: linear-gradient(135deg, #0d6efd 0%, #198754 100%);
+    }
+    .icon-box {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .form-floating label {
+        padding-left: 2.5rem;
+    }
+    .form-floating .form-control:focus ~ label {
+        color: #0d6efd;
+    }
+    .was-validated .form-control:invalid, .form-control.is-invalid {
+        background-position: left calc(0.375em + 0.1875rem) center;
+        padding-left: calc(1.5em + 0.75rem);
+    }
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    }
+</style>
+
+<script>
+    // Validation du formulaire
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
+{% endblock %}

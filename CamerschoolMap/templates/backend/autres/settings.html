@@ -1,0 +1,355 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .profile-card {
+        max-width: 1000px;
+        margin: auto;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+
+    .profile-pic1 {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-pic1:hover {
+        transform: scale(1.05);
+    }
+
+    .form-control:disabled {
+        background-color: #f0f0f0;
+    }
+
+    .settings-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #007bff;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
+    .social-input-group {
+        position: relative;
+    }
+
+    .social-input-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+
+    .activity-log {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="container-fluid py-5">
+            <!-- Carte Principale des Paramètres -->
+            <div class="card profile-card p-4 bg-white">
+                <!-- En-tête du Profil -->
+                <div class="text-center profile-header">
+                    <h3 class="h1 mb-4">Paramètres du Compte</h3>
+                    <div class="position-relative d-inline-block">
+                        <img id="profileImage" src="{% static 'fontend/images/logo.jpg' %}" 
+                             class="profile-pic1" alt="Photo de profil">
+                        <label for="uploadPhoto" class="btn btn-sm btn-primary rounded-pill position-absolute bottom-0 end-0">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                    </div>
+                    <input type="file" class="d-none" id="uploadPhoto" accept="image/*">
+                </div>
+
+                <!-- Formulaire des Paramètres -->
+                <form class="settings-container mt-4" method="POST" action="{% url 'setting' %}">
+                    {% csrf_token %}
+                    <!-- Section Informations Personnelles -->
+                    <div class="mb-4">
+                        <h5 class="section-title">Informations Personnelles</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="fullName" class="form-label">Nom complet</label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" 
+                       value="{{ user.username }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phoneNumber" class="form-label">Téléphone</label>
+                                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" 
+                       value="{{ user.phone }}">
+                            </div>
+                            <div class="col-12">
+                                <label for="bio" class="form-label">Biographie</label>
+                                <textarea class="form-control" id="bio" name="bio" rows="3">{{ user.biography }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Sécurité -->
+                    <div class="mb-4">
+                        <h5 class="section-title">Sécurité du Compte</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Adresse Email</label>
+                                <input type="email" id="email" class="form-control" 
+                                       value="exemple@email.com" disabled>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                                <label for="password" class="form-label">Mot de passe</label>
+                                <div class="input-group">
+                                    <input type="password" id="password" class="form-control" 
+                                           placeholder="••••••••">
+                                    <button class="btn btn-outline-secondary" type="button" 
+                                            onclick="togglePassword()">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" 
+                                           id="twoFactorAuth" style="width: 3em; height: 1.5em;">
+                                    <label class="form-check-label ms-2" for="twoFactorAuth">
+                                        Authentification à deux facteurs (2FA)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Réseaux Sociaux -->
+                    <div class="mb-4">
+                        <h5 class="section-title">Liens Sociaux</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6 social-input-group">
+                                <i class="fab fa-facebook"></i>
+                                <input type="url" class="form-control ps-5" name="facebook"
+                       value="{{ user.facebook_link }}">
+                            </div>
+                            <div class="col-md-6 social-input-group">
+                                <i class="fab fa-twitter"></i>
+                                <input type="url" class="form-control ps-5" name="facebook"
+                       value="{{ user.twitter_link }}">
+                            </div>
+                            <div class="col-md-6 social-input-group">
+                                <i class="fab fa-linkedin"></i>
+                                <input type="url" class="form-control ps-5" name="facebook"
+                       value="{{ user.linkedin_link }}">
+                            </div>
+                            <div class="col-md-6 social-input-group">
+                                <i class="fab fa-instagram"></i>
+                                <input type="url" class="form-control ps-5" name="facebook"
+                                value="{{ user.instagram_link }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Préférences -->
+                    <div class="mb-4">
+                        <h5 class="section-title">Préférences</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Langue</label>
+                                <select class="form-select">
+                                    <option>Français</option>
+                                    <option>English</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Statut professionnelle</label>
+                                <select class="form-select" name="profession">
+                                    {% for value, label in user.PROFESSION_CHOICES %}
+                                        <option value="{{ value }}" {% if user.profession == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Notifications -->
+                    <div class="mb-4">
+                        <h5 class="section-title">Notifications</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" 
+                                           id="emailNotifications" checked>
+                                    <label class="form-check-label" for="emailNotifications">
+                                        Notifications par Email
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" 
+                                           id="pushNotifications">
+                                    <label class="form-check-label" for="pushNotifications">
+                                        Notifications Message
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Boutons d'Action -->
+                    <div class="d-grid gap-3 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save me-2"></i>Enregistrer les modifications
+                        </button>
+                        <button type="reset" class="btn btn-outline-secondary btn-lg">
+                            Réinitialiser
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Carte d'Activité et Suppression -->
+            <div class="card profile-card p-4 bg-white my-5">
+                <!-- Historique d'Activité -->
+                <div class="mb-4">
+                    <h5 class="section-title">Activité Récente</h5>
+                    <div class="activity-log">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <small>Connexion réussie</small>
+                                    <small>Il y a 2 heures</small>
+                                </div>
+                                <div class="text-muted small">
+                                    Chrome sur Windows • IP: 192.168.1.1
+                                </div>
+                            </div>
+                            <!-- Ajouter plus d'éléments d'historique ici -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suppression de Compte -->
+                <div class="text-center border-top pt-4">
+                    <h5 class="text-danger mb-3">Zone Danger</h5>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" 
+                            data-bs-target="#deleteAccountModal">
+                        <i class="fas fa-trash me-2"></i>Supprimer le Compte
+                    </button>
+                    <p class="text-muted small mt-2">
+                        Cette action est irréversible. Toutes vos données seront définitivement supprimées.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Suppression de Compte -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmer la Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer définitivement votre compte ?</p>
+                <div class="mb-3">
+                    <label for="deletePassword" class="form-label">Mot de passe actuel</label>
+                    <input type="password" class="form-control" id="deletePassword" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger">Confirmer la Suppression</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Scripts -->
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById('password');
+        const icon = document.querySelector('#password + button i');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    document.getElementById('uploadPhoto').addEventListener('change', function(e) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            document.getElementById('profileImage').src = reader.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+</script>
+
+{% endblock %}

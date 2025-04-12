@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Succès - CamerSchoolMap</title>
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'backend/assets/images/logo.jpg' %}" class="rounded-circle">
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center text-center bg-success text-white">
+          <div class="row flex-grow">
+            <div class="col-lg-6 mx-auto">
+              <div class="mb-4">
+                <i class="mdi mdi-check-circle-outline display-1"></i>
+                <h1 class="display-4">Succès!</h1>
+                <p class="lead">L'établissement scolaire a été ajouté avec succès.</p>
+              </div>
+              <div class="d-flex justify-content-center">
+                <a href="{% url 'dashbord' %}" class="btn btn-light btn-lg mr-3">
+                  <i class="mdi mdi-home"></i> Accueil
+                </a>
+                <a href="{% url 'school' %}" class="btn btn-primary btn-lg mr-3">
+                  <i class="mdi mdi-plus"></i> Ajouter un autre
+                </a>
+                <a href="{% url 'historique_ecole' %}" class="btn btn-info btn-lg">
+                  <i class="mdi mdi-school"></i> Voir la liste
+                </a>
+              </div>
+              <div class="mt-5">
+                <p class="text-white">&copy; 2025 CamerSchoolMap. Tous droits réservés.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'backend/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'backend/assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'backend/assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'backend/assets/js/misc.js' %}"></script>
+  </body>
+</html>

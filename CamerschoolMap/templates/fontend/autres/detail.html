@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Détails de l'établissement scolaire - CamerschoolMap</title>
+  <!-- CSS Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      background-color: #191616;
+    }
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: #fff;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #ffd700;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      padding: 80px 0;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: 600;
+    }
+
+    .hero-section .badge {
+      font-size: 0.9rem;
+    }
+
+    /* Profile Image */
+    .profile-img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #fff;
+    }
+
+    /* Cards */
+    .card {
+      border: none;
+      border-radius: 15px;
+    }
+
+    .card .card-body {
+      padding: 2rem;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Map */
+    .map-container {
+      height: 400px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    /* Hover Effects */
+    .hover-zoom {
+      transition: transform 0.3s ease;
+    }
+
+    .hover-zoom:hover {
+      transform: scale(1.05);
+    }
+
+    .hover-shadow {
+      transition: box-shadow 0.3s ease;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Footer */
+    footer {
+      background: #1e3c72;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="{% static 'fontend/images/logo.jpg' %}" alt="CamerschoolMap Logo" style="height:40px;"
+          class="rounded-circle">
+        CamerschoolMap
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'detail' %}">Établissements</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'avis' %}"><i class="fas fa-comments"></i>
+              Commentaires</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact' %}"><i class="fas fa-envelope"></i>
+              Contactez-nous</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="langueDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-globe"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Français</a></li>
+              <li><a class="dropdown-item" href="#">English</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#searchModal">
+            <i class="fas fa-search search-icon"></i> Recherche
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Modal de recherche -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-black">
+          <h5 class="modal-title" id="searchModalLabel">Rechercher</h5>
+          <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="searchInput" class="form-control" placeholder="Entrez votre recherche...">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-success" id="searchButton">Rechercher</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section text-white text-center animate__animated animate__fadeIn" 
+  {% if etablissement.image_profil %}
+    style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ etablissement.image_profil.url }}'); background-size: cover; background-position: center;"
+  {% endif %}>
+
+    <div class="container">
+      <h1 class="display-4 mb-3">{{ etablissement.nom }}</h1>
+      <div class="d-flex justify-content-center gap-3 mb-3">
+        <span class="badge bg-light text-dark">{{ etablissement.get_type_display }}</span>
+        <span class="badge bg-warning text-dark">{{ etablissement.get_categorie_display }}</span>
+      </div>
+      <p class="lead">
+        <i class="fas fa-map-marker-alt"></i> {{ etablissement.ville }}
+        {% if etablissement.departement %}
+        ({{ etablissement.departement }})
+        {% endif %}
+      </p>
+      <div class="mt-4">
+        {% if etablissement.image_profil %}
+        <img src="{{ etablissement.image_profil.url }}" alt="Profil de {{ etablissement.nom }}"
+          class="profile-img shadow-lg hover-zoom">
+        {% else %}
+        <img src="{% static 'images/default.jpg' %}" alt="Profil par défaut" class="profile-img shadow-lg hover-zoom">
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <<!-- Main Content -->
+    <main class="py-5">
+      <div class="container">
+        <div class="row g-5">
+          <!-- Informations générales -->
+          <div class="col-12">
+            <div class="card shadow-sm animate__animated animate__slideInLeft">
+              <div class="card-body">
+                <h3 class="card-title mb-4">
+                  <i class="fas fa-info-circle text-primary me-2"></i>
+                  Informations générales
+                </h3>
+                <dl class="row">
+                  <dt class="col-sm-4">Adresse complète</dt>
+                  <dd class="col-sm-8">{{ etablissement.adresse }}</dd>
+
+                  <dt class="col-sm-4">Date de création</dt>
+                  <dd class="col-sm-8">{{ etablissement.date_creation|date:"d/m/Y" }}</dd>
+
+                  {% if etablissement.contact %}
+                  <dt class="col-sm-4">Contact</dt>
+                  <dd class="col-sm-8">
+                    <a href="tel:{{ etablissement.contact }}" class="text-decoration-none">
+                      <i class="fas fa-phone-alt text-success me-2"></i>
+                      {{ etablissement.contact }}
+                    </a>
+                  </dd>
+                  {% endif %}
+
+                  {% if etablissement.email %}
+                  <dt class="col-sm-4">Email</dt>
+                  <dd class="col-sm-8">
+                    <a href="mailto:{{ etablissement.email }}" class="text-decoration-none">
+                      <i class="fas fa-envelope text-danger me-2"></i>
+                      {{ etablissement.email }}
+                    </a>
+                  </dd>
+                  {% endif %}
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          {% if etablissement.description %}
+          <div class="col-12">
+            <div class="card shadow-sm animate__animated animate__slideInLeft animate__delay-1s mt-4">
+              <div class="card-body">
+                <h3 class="card-title mb-4">
+                  <i class="fas fa-align-left text-primary me-2"></i>
+                  Description
+                </h3>
+                <div>{{ etablissement.description | safe }}</div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+
+          <!-- Galerie photos en bas -->
+          <div class="col-12 mt-4">
+            <div class="card shadow-sm animate__animated animate__slideInUp">
+              <div class="card-body">
+                <h3 class="card-title mb-4">
+                  <i class="fas fa-images text-primary me-2"></i>
+                  Galerie photos
+                </h3>
+                <div class="row g-3">
+                  {% for photo in etablissement.photos.all %}
+                  <div class="col-6 col-md-4 col-lg-3">
+                    <a href="{{ photo.image.url }}" data-lightbox="gallery">
+                      <img src="{{ photo.image.url }}" alt="Photo de {{ etablissement.nom }}"
+                        class="img-fluid rounded hover-shadow" style="height: 150px; object-fit: cover;">
+                    </a>
+                  </div>
+                  {% empty %}
+                  <div class="col-12">
+                    <p class="text-muted">Aucune photo disponible</p>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- Map Section -->
+        <div class="card shadow-sm mt-5 animate__animated animate__fadeInUp">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0">
+              <i class="fas fa-map-marker-alt text-primary me-2"></i>
+              Localisation
+            </h3>
+          </div>
+          <div class="card-body">
+            <div id="map" class="map-container"></div>
+          </div>
+
+          <!-- Boutons centrés -->
+          <div class="row text-center">
+            <div class="col-12 d-flex justify-content-center gap-3 mb-3">
+              <a href="{% url 'avis' %}?etablissement_id={{ etablissement.id }}&etablissement_nom={{ etablissement.nom }}"
+                class="btn btn-primary w-100">
+                Laisser un avis sur cet établissement
+              </a>
+              <a href="{% url 'avis' %}?etablissement_id={{ etablissement.id }}&etablissement_nom={{ etablissement.nom }}&voir=true"
+                class="btn btn-secondary w-100">
+                Voir les avis de cet établissement
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p class="mb-0">&copy; 2025 CamerschoolMap - Tous droits réservés</p>
+      </div>
+    </footer>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
+    <script>
+      // Initialisation de la carte
+      var map = L.map('map').setView([5.9631, 10.1591], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      L.marker([5.9631, 10.1591]).addTo(map)
+        .bindPopup('{{ etablissement.nom }}')
+        .openPopup();
+
+      // Animation au scroll (exemple si vous ajoutez la classe "animate-on-scroll")
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate__fadeInUp');
+          }
+        });
+      });
+      document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+      });
+    </script>
+</body>
+
+</html>

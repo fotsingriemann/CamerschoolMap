@@ -1,0 +1,855 @@
+{% extends 'fontend/base_connexion.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    h2 {
+        color: black;
+    }
+
+    .navbar-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar-nav .nav-item {
+        white-space: nowrap;
+    }
+
+    @media (max-width: 991px) {
+        .navbar-nav {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar-collapse {
+            text-align: center;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        label,
+        .card-title,
+        .card-text {
+            font-size: 16px !important;
+            /* Taille uniforme */
+        }
+
+        .btn {
+            font-size: 14px !important;
+        }
+
+        .review-text,
+        .review-author,
+        .review-date {
+            font-size: 14px !important;
+        }
+
+        .container,
+        .container_avis {
+            padding: 10px;
+        }
+    }
+</style>
+<!-- Title and Introduction -->
+<div class="container " style="margin-top: 10%;">
+    <h1 class="display-5 text-center text-black  my-3  ">Region de <span class="text-success">l'OUEST</span>
+        cameroun <i> (BAFOUSSAM)</i></h1>
+
+    <!-- Search Bar for Reviews -->
+    <div class="search-bar mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Recherche rapide d'etablissemnt scolaire"
+                aria-label="Rechercher un avis">
+            <div class="input-group-append">
+                <button class="btn btn-success" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- section pour la description  -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar à gauche (avec dropdowns collapsibles) -->
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link " href="#histoire">
+                            <i class="fa fa-history text-success "></i> Histoire
+                        </a>
+                    </li>
+                    <!-- Géographie (Dropdown) -->
+                    <li class=" nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#geographieSection" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-globe text-success"></i> Géographie
+                        </a>
+                    </li>
+                    <div class="collapse" id="geographieSection">
+                        <div class="card card-body cad1">
+                            <ul>
+                                <li class="nav-link"><a class="nav-link1" href="#Climat">Climat</a></li>
+                                <li class="nav-link"><a class="nav-link1" href="#Situation">Situation</a></li>
+                                <li class="nav-link"><a class="nav-link1" href="#Ecologie">Ecologie</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Culture (Dropdown) -->
+                    <li class=" nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#culture" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-theater-masks text-success"></i> Culture
+                        </a>
+                    </li>
+                    <div class="collapse" id="culture">
+                        <div class="card card-body cad1">
+                            <ul>
+                                <li class="nav-link"><a class="nav-link1" href="#Danse">danse tradictionnelle</a>
+                                </li>
+                                <li class="nav-link"><a class="nav-link1" href="#infrastruture">infrastruture et
+                                        assesoire de
+                                        music</a></li>
+                                <li class="nav-link"><a class="nav-link1" href="#Tourisme">tourisme</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Politique (Dropdown) -->
+                    <li class=" nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#politique" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-gavel text-success"></i> Politique et economie
+                        </a>
+                    </li>
+                    <div class="collapse" id="politique">
+                        <div class="card card-body cad1">
+                            <ul>
+                                <li class="nav-link"><a class="nav-link1" href="#conseil">conseil regional</a></li>
+                                <li class="nav-link"><a class="nav-link1" href="#Députés">Députés</a></li>
+                                <li class="nav-link"><a class="nav-link1" href="#Économie">Économie</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- subdivision (Dropdown) -->
+                    <li class=" nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#Subdivision" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-chart-line text-success"></i> Subdivision
+                        </a>
+                    </li>
+                    <div class="collapse" id="Subdivision">
+                        <div class="card card-body cad1">
+                            <ul>
+                                <li class="nav-link"><a class="nav-link1" href="#Départements">Départements</a></li>
+                                <li class="nav-link"><a class="nav-link1" href="#Arrondissements">Arrondissements et
+                                        communes</a>
+                                </li>
+                                <li class="nav-link"><a class="nav-link1" href="#Chefferies">Chefferies
+                                        traditionnelles</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Contenu principal de la page à droite -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-4 my-5">
+            <!-- section histoire -->
+            <section id="histoire my-4 ">
+                <h2><i class="fa fa-history mx-2 text-warning" aria-hidden="true"></i>Histoire</h2>
+                <hr>
+                <p>La région de l'Ouest du Cameroun, berceau de riches traditions culturelles et politiques, a été
+                    profondément marquée par les événements de la période coloniale. Ce territoire a joué un rôle
+                    central dans les luttes pour l’indépendance
+                    du pays, illustrant la résilience et la détermination de ses populations face aux adversités.
+                </p>
+                <div>
+                    <h4><i class="fas fa-check-circle mx-2 text-success"></i>Les Temps Forts de l’Histoire</h4>
+                    <ol>
+                        <li class="h5">Migration forcée (1930-1958) :</li>
+                        <p>Près de 15 % de la population quitte la région, fuyant les dures conditions imposées par
+                            le travail forcé instauré par les colons.</p>
+                        <li class="h5">L’émergence de l’UPC (Années 1950) :</li>
+                        <p>L'Union des Populations du Cameroun (UPC) gagne en popularité dans la région grâce à son
+                            combat contre les injustices sociales, notamment les expulsions de paysans de leurs
+                            terres. Ce mouvement appelle à la désobéissance civile,
+                            suscitant une répression coloniale intense.</p>
+                        <li class="h5">Les émeutes de mai 1955 :</li>
+                        <p>Ces soulèvements pro-indépendantistes, marqués par des affrontements violents, mènent à
+                            une répression sanglante orchestrée par les autorités coloniales et certains chefs
+                            traditionnels.</p>
+                        <li class="h5">L’organisation des maquis (1957-1960) :</li>
+                        <p>En réponse à la répression, les militants indépendantistes s’organisent en maquis pour
+                            mener une lutte armée. Bien que rudimentaires, ces groupes incarnent la résistance face
+                            au pouvoir colonial.</p>
+                        <li class="h5">Réorganisation administrative (1960) :</li>
+                        <p>Après l’indépendance, la région est redécoupée en plusieurs départements (Mifi, Menoua,
+                            Ndé, Haut-Nkam, Bamboutos), marquant une nouvelle ère dans son histoire administrative.
+                        </p>
+                    </ol>
+
+                    <p>L’histoire de la région de l’Ouest du Cameroun reflète les sacrifices et les luttes héroïques
+                        de ses populations pour la liberté et la justice. Ces événements ont façonné l’identité de
+                        la région, en faisant un symbole de résilience
+                        et de contribution majeure à l’indépendance nationale.</p>
+                </div>
+            </section>
+
+
+            <!-- section geographie -->
+            <section id="geographieSection">
+                <hr>
+                <h2><i class="fas fa-globe text-warning"></i> Géographie</h2>
+                <hr>
+                <p>Le relief est montagneux avec de nombreux plateaux et plaines. L’Ouest est une région agréable
+                    avec ses collines, ses montagnes qui offrent des sites naturels qui valent le détour (chutes de
+                    la Mifi, d'Ekom, massif du Manengouba, lacs
+                    Nfou, Baleng, etc.). On y trouve une multitude de chefferies dont les plus célèbres sont celles
+                    de Bandjoun, Badoumla, Bamendjou, Dschang, Banka, Bafoussam et Bamougoum et le royaume Bamoun.
+                </p>
+                <!-- climat -->
+                <section1 id="Climat">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Climat</h3>
+                    <p>De climat équatorial de type camerounéen, elle compte deux grandes saisons : une saison sèche
+                        qui va d'octobre-novembre à mars-avril, une saison des pluies qui commence en mars-avril
+                        jusqu’en octobre-novembre. Les températures
+                        oscillent entre 11 et 30 °C en moyenne avec une forte variation journalière : la température
+                        moyenne est de 22 °C</p>
+                </section1>
+
+                <!-- situation geographique -->
+                <section2 id="Situation">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Situation</h3>
+                    <div class="row align-items-center">
+                        <!-- Colonne pour le texte -->
+                        <div class="col-md-6">
+                            <p>
+                                La région qui couvre une superficie de 13 892 km² soit 2,98 % du territoire
+                                national, est située au centre-ouest du pays, elle est limitrophe de cinq régions
+                                camerounaises.
+                            </p>
+                        </div>
+                        <!-- Colonne pour l'image -->
+                        <div class="col-md-6 text-end">
+                            <img src="{% static 'fontend/images/baff.PNG' %}" alt="Région de l'Ouest" class="img-fluid">
+                        </div>
+                    </div>
+                </section2>
+                <section3 id="Ecologie">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Écologie</h3>
+                    <p>La région s'étend sur trois écosystèmes biogéographiques, la savane tropicale boisée, la
+                        prairie et terres arbustives de montagne pour l'espace d'altitude et la forêt dense
+                        tropicale humide sur ses marges méridionales</p>
+                </section3>
+            </section>
+
+
+            <!-- section politique -->
+            <section id="politique">
+                <hr>
+                <h2><i class="fas fa-gavel mx-2 text-warning" aria-hidden="true"></i>Politique</h2>
+                <hr>
+                <!-- section conseil regional -->
+                <section4 id="conseil">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>conseil regional</h3>
+                    <div class="row align-items-center">
+                        <!-- Colonne pour le texte -->
+                        <div class="col-md-6">
+                            <p>
+                                Le Conseil régional de l'Ouest mis en place à la suite des élections du 6 décembre
+                                2020 est composé, comme dans les dix régions du pays, de 90 conseillers. 70 délégués
+                                du département sont élus par les conseillers municipaux : chaque département est
+                                représenté par un nombre de conseillers régionaux relativement à sa population :
+                                Bamboutos (9), Haut-Nkam (10), Hauts-Plateaux (5), Koung-Khi (4), Menoua (11), Mifi
+                                (8), Ndé (6), Noun (17); de plus 20 conseillers sont issus et élus par le
+                                commandement traditionnel : Bamboutos (3), Haut-Nkam (2), Hauts-Plateaux (2),
+                                Koung-Khi (2), Menoua (3), Mifi (3), Ndé (2), Noun (3)12,13.
+                            </p>
+                        </div>
+                        <!-- Colonne pour l'image -->
+                        <div class="col-md-6 text-end">
+                            <div class="card " style="width: 30em ;">
+                                <img src="{% static 'fontend/images/conseil.jpg' %}" alt="">
+                                <div class="card-body">
+                                    <p>Groupes ethniques de la région de l'Ouest</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section4>
+
+                <!-- depute -->
+                <section5 id="Députés">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Députés</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">nom & prenom</th>
+                                <th scope="col">partie politique</th>
+                                <th scope="col">circonstription</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bouobda, Calvin Foinding</td>
+                                <td>RDPC</td>
+                                <td>Koung-khi</td>
+                            </tr>
+                            <tr>
+                                <td>Joseph Confiance Fongang, Serge Siméon Noumba</td>
+                                <td>MIFI, SDF</td>
+                                <td>Koung-khi, </td>
+                            </tr>
+                            <tr>
+                                <td>Jacob Fossi, Donfack Lekene, Odette Melaga, François Ndi, Bernard Youwo</td>
+                                <td> RDPC</td>
+                                <td>Menoua</td>
+                            </tr>
+                            <tr>
+                                <td>Mathurin Wa, Lucas Tchoffo, David Manfouo, Joséphine Fotso</td>
+                                <td>RDPC</td>
+                                <td>Bamboutos</td>
+                            </tr>
+                            <tr>
+                                <td>Jean claude FEUTHEU, Jean Ketcha</td>
+                                <td>RDPC</td>
+                                <td>Ndé</td>
+                            </tr>
+                            <tr>
+                                <td>Yacouba Mounchipou, Riratou Peyipahouo, Hermine Patricia Tomaino Ndam Njoya</td>
+                                <td>UDC</td>
+                                <td>Noun-centre</td>
+                            </tr>
+                            <tr>
+                                <td>Moussa Nsa</td>
+                                <td>RDPC</td>
+                                <td>Noun-NORD</td>
+                            </tr>
+                            <tr>
+                                <td>Theodore DATOUO, Benjamin Sonke, </td>
+                                <td>RDPC </td>
+                                <td>Hauts-Plateaux</td>
+                            </tr>
+                            <tr>
+                                <td>André Parfait Djeume, Jean-Jacques Kanga, Alice Zeussiye</td>
+                                <td>RDPC </td>
+                                <td>Hauts-Nkam</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </section5>
+
+                <!-- ecomomie -->
+                <section6 id="Économie">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Économie</h3>
+                    <p>L'ouest-Cameroun a fondé sa richesse sur la production agro-pastorale notamment celle du café
+                        arabica particulièrement adapté aux hautes vallées de la province et regroupant Bandjoun,
+                        Bafoussam, Bamendjou, Bamougoum, Bayangam, Bangou et Baham. <br>
+                        On y pratique deux types de production agricole : </p>
+                    <ol>
+                        <li>Une production de rentes : café Arabica et Robusta, coopérative agricole de planteurs et
+                            thé.</li>
+                        <li>Une production vivrière (pommes de terre, tomates, carottes, haricots verts, maïs, etc.)
+                            ;</li>
+                    </ol>
+
+                </section6>
+
+            </section>
+
+            <!-- subdivision -->
+
+            <section id="subdivision">
+                <hr>
+                <h2><i class="fas fa-chart-line mx-2 text-warning" aria-hidden="true"></i>Subdivision</h2>
+                <hr>
+
+                <section7 id="Départements">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Départements</h3>
+                    <div class="row align-items-center">
+                        <!-- Colonne pour le texte -->
+                        <div class="col-md-6">
+                            <p>La région qui se compose de 8 départements couvre une superficie de 13 892 km2 et
+                                abrite plus
+                                de 1 952 530 habitants en 2016, 8,60 % de la population nationale6,7 (1 720 047 en
+                                2005). Sa
+                                densité a presque doublé entre les recensements de 1976 et 2005, de 74,5 à 123,8
+                                habitants
+                                au km2, faisant d'elle l'une des régions les densément peuplées du Cameroun,
+                                quasiment à
+                                égalité avec la région Littoral8. </p>
+                            <div class="card " style="width: 15em ;">
+                                <img src="{% static 'fontend//images/deprt.jpg' %}" alt="">
+                                <div class="card-body">
+                                    <p>Groupes ethniques de la région de l'Ouest</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Colonne pour l'image -->
+                        <div class="col-md-6 text-end">
+                            <table class="table table-bordered border-primary">
+                                <thead>
+                                    <tr>
+                                        <th>Départements</th>
+                                        <th>Légende</th>
+                                        <th>chef lieux</th>
+                                        <th>superficie(en km2)</th>
+                                        <th>populations (2001)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> <a href="#">Koung-khi</a> </td>
+                                        <td style="background: rgb(0, 145, 255);"></td>
+                                        <td>Bandjoun</td>
+                                        <td>353</td>
+                                        <td>121 794</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">Bamboutos</a> </td>
+                                        <td bgcolor="#FFAOAO"></td>
+                                        <td>Mbouda</td>
+                                        <td>1173</td>
+                                        <td>318 848</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">NDE</a> </td>
+                                        <td bgcolor="#OOFOFO"></td>
+                                        <td>Bangangte</td>
+                                        <td>1524</td>
+                                        <td>123 661</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">HAUTS-PLATEUAX</a> </td>
+                                        <td bgcolor="#FF9470"></td>
+                                        <td>Baham</td>
+                                        <td>415</td>
+                                        <td>117 008</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">NOUN</a> </td>
+                                        <td bgcolor="#FFc000"></td>
+                                        <td>Foumban</td>
+                                        <td>7687</td>
+                                        <td>434 542</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">MIFI</a> </td>
+                                        <td bgcolor="#B3FF40"></td>
+                                        <td>Bafoussam</td>
+                                        <td>402</td>
+                                        <td>290 758</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">HAUT-NKAM</a> </td>
+                                        <td bgcolor="#FFFF90"></td>
+                                        <td>Bafang</td>
+                                        <td>958</td>
+                                        <td>203 251</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <a href="#">MENOUA</a> </td>
+                                        <td bgcolor="#FF80c0"></td>
+                                        <td>Dschang</td>
+                                        <td>1380</td>
+                                        <td>372 244</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+
+
+                </section7>
+                <section8 id="Arrondissements">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Arrondissements et communes</h3>
+                    <div class="row align-items-center">
+                        <!-- Colonne pour le texte -->
+                        <div class="col-md-6">
+                            <h3>les Arrondissements</h3>
+                            <p>
+                                La région de l’Ouest Cameroun compte <strong>40 arrondissements</strong>, répartis
+                                dans ses 8 départements. Ces subdivisions administratives jouent un rôle crucial
+                                dans la gestion locale et la mise en œuvre des politiques publiques. Quelques
+                                exemples d’arrondissements incluent :
+                            </p>
+                            <ul class="list-group">
+                                <li class="list-group-item">Bafoussam 1er</li>
+                                <li class="list-group-item">Foumban</li>
+                                <li class="list-group-item">Dschang</li>
+                                <li class="list-group-item">Mbouda</li>
+                                <li class="list-group-item">
+                                    <a href="https://fr.wikipedia.org/wiki/Arrondissement_(Cameroun)" target="_blank"
+                                        data-bs-toggle="tooltip"
+                                        title="Cliquez pour en savoir plus sur les arrondissements au Cameroun">
+                                        En savoir plus sur les arrondissements
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- Colonne pour l'image -->
+                        <div class="col-md-6 text-end">
+                            <h4>Les Communes</h4>
+                            <p>
+                                Les communes sont des entités décentralisées responsables de la gestion des affaires
+                                locales. Elles jouent un rôle essentiel dans les infrastructures, la santé,
+                                l’éducation et l’économie. Il existe trois types de communes au Cameroun :
+                            </p>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item"><strong>Communes urbaines :</strong> Situées dans les
+                                    grandes villes comme Bafoussam.</li>
+                                <li class="list-group-item"><strong>Communes rurales :</strong> Présentes dans les
+                                    zones moins peuplées.</li>
+                                <li class="list-group-item"><strong>Communes spéciales :</strong> Exemple : Yaoundé,
+                                    qui a un statut particulier.</li>
+                            </ul>
+                            <p>Quelques exemples de communes dans la région de l’Ouest :</p>
+                            <ul class="list-group">
+                                <li class="list-group-item">Commune de Dschang</li>
+                                <li class="list-group-item">Commune de Bandjoun</li>
+                                <li class="list-group-item">Commune de Foumban</li>
+                                <li class="list-group-item">
+                                    <a href="https://fr.wikipedia.org/wiki/Commune_(Cameroun)" target="_blank"
+                                        data-bs-toggle="tooltip"
+                                        title="Cliquez pour en savoir plus sur les communes au Cameroun">
+                                        En savoir plus sur les communes
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </section8>
+
+                <section9 id="Chefferies">
+                    <h3><i class="fas fa-check-circle mx-2 text-success"></i>Chefferies traditionnelles</h3>
+                    <p>
+                        Les chefferies au Cameroun sont des institutions traditionnelles qui existent parallèlement
+                        à l’administration moderne. Elles sont classées en trois niveaux :
+                    </p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Chefferies de premier degré :</strong> Ces chefferies sont souvent appelées
+                            royaumes et couvrent une large étendue.
+                            <em>Exemple :</em> Chefferie de Foumban.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Chefferies de deuxième degré :</strong> Subordonnées aux chefferies de premier
+                            degré, elles restent influentes.
+                            <em>Exemple :</em> Chefferie de Bandjoun.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Chefferies de troisième degré :</strong> Ces chefferies couvrent des villages
+                            spécifiques.
+                            <em>Exemple :</em> Chefferie de Batié.
+                        </li>
+                        <li class="list-group-item">
+                            <a href="https://fr.wikipedia.org/wiki/Chefferie_(Cameroun)" target="_blank"
+                                data-bs-toggle="tooltip"
+                                title="Cliquez pour en savoir plus sur les chefferies au Cameroun">
+                                En savoir plus sur les chefferies
+                            </a>
+                        </li>
+                    </ul>
+
+                </section9>
+
+                <!-- section culture -->
+                <section id="culture">
+                    <hr>
+                    <h2><i class="fas fa-theater-masks mx-2 text-warning" aria-hidden="true"></i>Culture</h2>
+                    <hr>
+
+                    <section10 id="Danse">
+                        <h1 class="text-center mb-4">Danses Traditionnelles de l'Ouest Cameroun</h1>
+                        <div class="row g-4">
+
+                            <!-- Carte 1 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card my-2">
+                                    <img src="{% static 'fontend/images/Medjeng.jpg' %}" class="card-img-top"
+                                        alt="Danse Medjeng">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Medjeng</h5>
+                                        <p class="card-text">Pratiquée dans le département du Noun, cette danse
+                                            reflète les rites royaux.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 2 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card my-2">
+                                    <img src="{% static 'fontend/images/Benskin.jpg' %}" class="card-img-top"
+                                        alt="Danse Benskin">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Benskin</h5>
+                                        <p class="card-text">Originaire de la Mifi, le Benskin est rythmé et
+                                            populaire lors des fêtes.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 3 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card my-2">
+                                    <img src="{% static 'fontend/images/Nkoh.jpg' %}" class="card-img-top"
+                                        alt="Danse Nkoh">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Nkoh</h5>
+                                        <p class="card-text">Danse rituelle des Bamboutos, symbolisant la fertilité
+                                            et la prospérité.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 4 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Tso.jpg' %}" class="card-img-top"
+                                        alt="Danse Tso">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Tso</h5>
+                                        <p class="card-text">Pratiquée à Dschang, elle est liée aux cérémonies
+                                            funéraires.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 5 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Kamou.jpg' %}" class="card-img-top"
+                                        alt="Danse Kamou">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Kamou</h5>
+                                        <p class="card-text">Danse guerrière de Bandjoun, elle célèbre la bravoure
+                                            et la victoire.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 6 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend//images/balafon.jpg' %}" class="card-img-top"
+                                        alt="Danse Balafon">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Balafon</h5>
+                                        <p class="card-text">Typique du Haut-Nkam, elle intègre le balafon comme
+                                            instrument principal.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 7 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Nka.jpg' %}" class="card-img-top"
+                                        alt="Danse Nka">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Nka</h5>
+                                        <p class="card-text">Originaire du Ndé, elle est pratiquée lors des mariages
+                                            traditionnels.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carte 8 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Lékié.jpg' %}" class="card-img-top"
+                                        alt="Danse Lékié">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Danse Lékié</h5>
+                                        <p class="card-text">Cette danse colorée des Menoua célèbre les récoltes
+                                            abondantes.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section10>
+
+
+                    <section11 id="Tourisme">
+                        <h1 class="text-center mb-4 my-3">Tourisme</h1>
+                        <p>Le tourisme dans la région de l’Ouest Cameroun est marqué par une richesse culturelle et
+                            naturelle exceptionnelle. Cette région, située au cœur des hautes terres, offre une
+                            diversité de paysages, allant des montagnes verdoyantes aux chutes d'eau spectaculaires.
+                            Elle est réputée pour ses palais royaux, témoins de l’héritage des chefferies
+                            traditionnelles, et ses musées, qui abritent des objets d'art et des récits historiques
+                            uniques.</p>
+
+                        <div class="row g-4">
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Métché.jpg' %}" class="card-img-top"
+                                        alt="Danse Lékié">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Les Chutes de la Métché (Bafoussam)</h5>
+                                        <p class="card-text">Situées à proximité de Bafoussam, ces magnifiques
+                                            chutes d'eau sont entourées de paysages verdoyants. Elles sont aussi un
+                                            lieu spirituel pour les peuples locaux, utilisé pour des rites
+                                            traditionnels.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Palais.jpg' %}" class="card-img-top"
+                                        alt="Danse Lékié">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Le Palais Royal de Foumban (Foumban)</h5>
+                                        <p class="card-text"> Ce palais historique, résidence des sultans Bamoun,
+                                            est un joyau architectural mêlant styles traditionnels et modernes. Il
+                                            abrite un musée dédié à l'histoire et à la culture du peuple Bamoun.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Baleng.jpg' %}" class="card-img-top"
+                                        alt="Danse Lékié">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> Le Lac Baleng (Bafoussam)</h5>
+                                        <p class="card-text">Ce lac de cratère d'origine volcanique est un havre de
+                                            paix pour les visiteurs. La tranquillité de ses eaux et les paysages
+                                            environnants en font un site idéal pour se ressourcer.. </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card">
+                                    <img src="{% static 'fontend/images/Grottes.jpg' %}" class="card-img-top"
+                                        alt="Danse Lékié">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Les Grottes de Fovu (Bandjoun)</h5>
+                                        <p class="card-text">
+                                            Ces grottes sacrées, situées à Bandjoun, sont utilisées pour des rituels
+                                            et des cérémonies ancestrales. Elles sont imprégnées de mysticisme et
+                                            constituent un lieu fascinant pour les amateurs d'histoire et de
+                                            culture.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        </section10>
+                        <section10 id="infrastruture">
+                            <h1 class="text-center mb-4 my-3">Outils Traditionnelles de l'Ouest Cameroun</h1>
+
+                            <div class="row g-4">
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="card">
+                                        <img src="{% static 'fontend/images/Mortier.webp' %}" class="card-img-top"
+                                            alt="Danse Lékié">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Le Mortier et Pilon ("Nkoul et Ndang")</h5>
+                                            <p class="card-text">Le mortier en bois est utilisé pour écraser ou
+                                                piler
+                                                des ingrédients, comme le maïs, les arachides, ou les épices. Le
+                                                pilon
+                                                est un bâton robuste en bois qui accompagne le mortier..</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="card">
+                                        <img src="{% static 'fontend/images/Calebasse.jpg' %}" class="card-img-top"
+                                            alt="Danse Lékié">
+                                        <div class="card-body">
+                                            <h5 class="card-title">La Calebasse ("Mbouh")</h5>
+                                            <p class="card-text">Fabriquée à partir du fruit séché d'une plante, la
+                                                calebasse est utilisée comme récipient pour transporter ou servir
+                                                des
+                                                aliments et des boissons traditionnels, comme le vin de palme.</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="card">
+                                        <img src="{% static 'fontend/images/Tam-tam.jpg' %}" class="card-img-top"
+                                            alt="Danse Lékié">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Le Tam-tam Royal ("Ngam")</h5>
+                                            <p class="card-text">C'est un instrument en bois recouvert de peau
+                                                animale,
+                                                utilisé pour transmettre des messages ou animer des cérémonies. Dans
+                                                les
+                                                chefferies, il sert à rassembler les gens ou à annoncer des
+                                                événements
+                                                importants. </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="card">
+                                        <img src="{% static 'fontend/images/balafon1.jpg' %}" class="card-img-top"
+                                            alt="Danse Lékié">
+                                        <div class="card-body">
+                                            <h5 class="card-title">le balafon</h5>
+                                            <p class="card-text">
+                                                Originaire de l’Afrique de l’Ouest, il tient une place prépondérante
+                                                dans l’identité africaine pour laquelle il joue le rôle
+                                                d’ambassadeur
+                                                musical. Malgré sa simplicité, sa notoriété a traversé les
+                                                frontières et
+                                                il continue de séduire les mélomanes du monde entier.</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </section11>
+                </section>
+
+
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<footer>
+    <p class="text-center"><i class="fa fa-copyright" aria-hidden="true"></i>copyright-2025 tout droit reserver make
+        by <strong>
+            TABETSING LUCAS <br> <a href="https://fr.wikipedia.org/wiki/Région_de_l'Ouest_(Cameroun)"
+                target="_blank">Cameroun region de l'Ouest</a>
+        </strong> </p>
+</footer>
+
+
+{% endblock %}

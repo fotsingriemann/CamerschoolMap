@@ -1,0 +1,186 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<!-- partial -->
+
+<div class="content-wrapper">
+  <div class="row" style="margin-top: 5%;">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="container mt-5">
+          <!-- Dans la section card-header -->
+          <div class="card-header position-relative">
+            <h2 class="text-center mb-4 text-white">Ajouter un Établissement</h2>
+            <a href="{% url 'documentation' %}" class="btn btn-info btn-sm position-absolute top-0 end-0 mt-2 me-2 pulse">
+              <i class="fas fa-book"></i> Comment ajouter un etablissement
+            </a>
+          </div>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Étape 1 : Informations de base -->
+            <div class="mb-3">
+              <label class="form-label text-white">Nom de l'établissement</label>
+              <input type="text" name="nom" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Ville</label>
+              <select name="ville" class="form-select" required>
+                <option value="Yaoundé">Yaoundé</option>
+                <option value="Douala">Douala</option>
+                <option value="Bafoussam">Bafoussam</option>
+                <option value="Maroua">Maroua</option>
+                <option value="Garoua">Garoua</option>
+                <option value="Bamenda">Bamenda</option>
+                <option value="Ebolowa">Ebolowa</option>
+                <option value="Edea">Edea</option>
+                <option value="Buea">Buea</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Département</label>
+              <input type="text" name="departement" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Type</label>
+              <select name="type" class="form-select" required>
+                <option value="public">Public</option>
+                <option value="privé">Privé</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Catégorie</label>
+              <select name="categories" class="form-select" required>
+                <option value="primaire">Primaire</option>
+                <option value="secondaire">Secondaire</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Image de Profil</label>
+              <input type="file" name="image_profil" class="form-control" accept="image/*">
+            </div>
+
+            <div class="mb-3 bg-white">
+              <label class="form-label text-white">Description</label>
+              <textarea id="description" name="description" class="form-control"></textarea>
+            </div>
+
+            <!-- Étape 2 : Compléments -->
+            <div class="mb-3">
+              <label class="form-label text-white">Photos supplémentaires</label>
+              <input type="file" name="photos" class="form-control" accept="image/*" multiple>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Adresse</label>
+              <input type="text" name="adresse" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Contact</label>
+              <input type="text" name="contact" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-white">Adresse Email</label>
+              <input type="email" name="email" class="form-control">
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-success">Envoyer</button>
+              <button type="reset" class="btn btn-danger">Abandonner</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content-wrapper ends -->
+</div>
+</div>
+</div>
+
+
+
+<!-- MODAL Bootstrap pour la deuxième étape -->
+<div class="modal fade" id="step2Modal" tabindex="-1" aria-labelledby="step2ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-white text-center" id="step2ModalLabel">Ajout des images et des liens</h5>
+        <button type="button" class="btn-close btn-success" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="step2-form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <!-- Photos -->
+          <div class="mb-3">
+            <label class="form-label text-white">Sélectionnez les photos (vous pouvez en choisir plusieurs)</label>
+            <input type="file" name="photos" class="form-control" accept="image/*" multiple>
+          </div>
+
+          <!-- Adresse -->
+          <div class="mb-3">
+            <label class="form-label text-white">Adresse</label>
+            <input type="text" name="adresse" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-white">Contact</label>
+            <input type="texte" name="contact" class="form-control">
+          </div>
+
+          <!-- Adresse Email -->
+          <div class="mb-3">
+            <label class="form-label text-white">Adresse Email</label>
+            <input type="email" name="email" class="form-control">
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            <button type="reset" class="btn btn-danger">Abandonner</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    $('#description').summernote({
+      placeholder: "Décrivez votre établissement en détail...",
+      tabsize: 10,
+      height: 300,
+      toolbar: [
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['picture', 'link', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']],
+        ['misc', ['undo', 'redo']],
+        ['style', ['style']],
+        ['format', ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']],
+        ['listStyle', ['ordered', 'unordered']],
+        ['customFormat', ['alphaUpper', 'alphaLower', 'romanUpper', 'romanLower']]
+      ]
+    });
+  });
+</script>
+
+{% endblock %}

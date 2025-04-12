@@ -1,0 +1,245 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-wrapper" style="margin-top: 5%;">
+    <div class="col-lg-12 stretch-card">
+        {% if messages %}
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="messageModalLabel">Notification</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% for message in messages %}
+                        <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center">Historique des établissements scolaires</h1>
+                <a href="{% url 'detail' %}">voir les etablissements</a>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-contextual">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom de l'établissement</th>
+                                <th>Ville</th>
+                                <th>Type</th>
+                                <th>Catégorie</th>
+                                <th>Date d'insertion</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for etablissement in etablissements %}
+                            <tr>
+                                <td>{{ etablissement.id }}</td>
+                                <td>{{ etablissement.nom }}</td>
+                                <td>{{ etablissement.ville }}</td>
+                                <td>{{ etablissement.type }}</td>
+                                <td>{{ etablissement.categorie }}</td>
+                                <td>{{ etablissement.date_creation }}</td>
+                                <td style="display:flex;">
+                                    <button type="button" class="btn btn-danger btn-delete mx-3"
+                                        data-id="{{ etablissement.id }}">
+                                        Supprimer
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-primary btn-edit mx-3"
+                                        data-id="{{ etablissement.id }}" data-nom="{{ etablissement.nom }}"
+                                        data-ville="{{ etablissement.ville }}" data-type="{{ etablissement.type }}"
+                                        data-categorie="{{ etablissement.categorie }}"
+                                        data-adresse="{{ etablissement.adresse }}"
+                                        data-contact="{{ etablissement.contact }}"
+                                        data-email="{{ etablissement.email }}" data-bs-toggle="modal"
+                                        data-bs-target="#editModal">
+                                        Modifier
+                                    </button>
+
+                                    <a href="{% url 'detail_etablissement' etablissement.id %}"
+                                        class="btn btn-success">Voir les détails</a>
+
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">Aucun établissement enregistré</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PAGINATION -->
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if etablissements.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ etablissements.previous_page_number }}"
+                                aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% for page_num in etablissements.paginator.page_range %}
+                        <li class="page-item {% if etablissements.number == page_num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if etablissements.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ etablissements.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Modifier l'établissement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editNom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="editNom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editVille" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="editVille" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editType" class="form-label">Type</label>
+                        <select class="form-control" id="editType">
+                            <option value="public">Public</option>
+                            <option value="privé">Privé</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCategorie" class="form-label">Catégorie</label>
+                        <select class="form-control" id="editCategorie">
+                            <option value="primaire">Primaire</option>
+                            <option value="secondaire">Secondaire</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAdresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="editAdresse" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editContact" class="form-label">Contact</label>
+                        <input type="text" class="form-control" id="editContact">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".btn-edit").forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("editId").value = this.getAttribute("data-id");
+                document.getElementById("editNom").value = this.getAttribute("data-nom");
+                document.getElementById("editVille").value = this.getAttribute("data-ville");
+                document.getElementById("editType").value = this.getAttribute("data-type");
+                document.getElementById("editCategorie").value = this.getAttribute("data-categorie");
+                document.getElementById("editAdresse").value = this.getAttribute("data-adresse");
+                document.getElementById("editContact").value = this.getAttribute("data-contact");
+                document.getElementById("editEmail").value = this.getAttribute("data-email");
+            });
+        });
+
+        document.getElementById("editForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            let id = document.getElementById("editId").value;
+            let formData = new FormData(this);
+            fetch(`/login/modifier_etablissement/${id}/`, { method: "POST", body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire("Succès", "Établissement modifié avec succès !", "success")
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire("Erreur", data.error, "error");
+                    }
+                });
+        });
+    });
+</script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".btn-delete").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Empêche le comportement par défaut
+
+                let etablissementId = this.getAttribute("data-id");
+
+                Swal.fire({
+                    title: "<span style='color:black;'>Êtes-vous sûr?</span>",
+                    text: "Cette action est irréversible !",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/login/supprimer-etablissement/${etablissementId}/`, {
+                            method: "POST",
+                            headers: {
+                                "X-CSRFToken": "{{ csrf_token }}",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({})
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire("Supprimé !", "L'établissement a été supprimé.", "success")
+                                        .then(() => location.reload());
+                                } else {
+                                    Swal.fire("Erreur", data.error, "error");
+                                }
+                            });
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}

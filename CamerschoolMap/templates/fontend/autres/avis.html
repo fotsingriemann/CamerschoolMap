@@ -1,0 +1,397 @@
+{% extends 'fontend/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    .rating-stars {
+        --active-color: #ffc107;
+        --inactive-color: #ddd;
+    }
+
+    .rating-stars .star {
+        cursor: pointer;
+        font-size: 2rem;
+        color: var(--inactive-color);
+        transition: all 0.3s ease;
+    }
+
+    .rating-stars .star:hover,
+    .rating-stars .star.hovered,
+    .rating-stars .star.active {
+        color: var(--active-color);
+        transform: scale(1.1);
+    }
+
+    #ratingLabel {
+        min-height: 24px;
+        transition: opacity 0.3s ease;
+
+    }
+
+    .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @media (max-width: 768px) {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        label,
+        .card-title,
+        .card-text {
+            font-size: 16px !important;
+            /* Taille uniforme */
+        }
+
+        .btn {
+            font-size: 14px !important;
+        }
+
+        .review-text,
+        .review-author,
+        .review-date {
+            font-size: 14px !important;
+        }
+
+        .container,
+        .container_avis {
+            padding: 10px;
+        }
+    }
+</style>
+
+<!-- Start of Avis Page -->
+
+
+<div class="container my-5 fade-in">
+    <!-- En-tête -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary mb-3">Vos Avis Nous Importent</h1>
+        <p class="lead text-muted">Partagez votre expérience et aidez-nous à améliorer nos services</p>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="search-bar mb-5">
+        <form class="shadow-sm rounded-pill">
+            <div class="input-group">
+                <input type="text" class="form-control border-0 rounded-pill py-3 px-4"
+                    placeholder="Entrer le nom de l'etablissement que vous voullez voir l'avis laisser a ce sujet ..."
+                    name="avis-search">
+                <button class="btn btn-primary rounded-pill px-4" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Formulaire d'avis -->
+    <div class="card border-0 shadow-lg mb-5 fade-in">
+        <div class="card-body p-4 p-md-5">
+            <h3 class="text-center mb-4">
+                <i class="fas fa-edit text-primary me-2"></i>Écrivez votre avis
+            </h3>
+
+            <form method="POST" action="{% url 'avis' %}">
+                {% csrf_token %}
+                <!-- Système d'étoiles -->
+                <div class="mb-4">
+                    <label class="form-label fs-5">Notez votre expérience</label>
+                    <div class="rating-stars d-flex justify-content-center gap-2">
+                        {% for i in "12345" %}
+                        <div class="star" data-value="{{i}}" onmouseover="highlightStars(this)"
+                            onmouseout="resetStars()" onclick="setRating(this)">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div id="ratingLabel" class="text-center mt-2 fw-bold text-muted"></div>
+                    <input type="hidden" name="rating" id="ratingValue" required>
+                </div>
+
+                <!-- Champs du formulaire -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Nom complet</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" name="nom">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Adresse email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                    </div>
+                </div>
+
+                {% if request.GET.etablissement_id %}
+                <!-- Si un établissement est précisé, on fixe le sujet à "établissement" -->
+                <input type="hidden" name="typeAvis" value="etablissement">
+                <input type="hidden" name="etablissement_id" value="{{ request.GET.etablissement_id }}">
+                <p class="fw-bold">Avis concernant : {{ request.GET.etablissement_nom }}</p>
+                {% else %}
+                <div class="mb-4">
+                    <label class="form-label">Sujet de votre avis</label>
+                    <select class="form-select py-3" name="typeAvis">
+                        <option value="site">Site en général</option>
+                        <option value="etablissement">Établissement spécifique</option>
+                    </select>
+                </div>
+                {% endif %}
+
+                <div class="mb-4">
+                    <label class="form-label">Votre message</label>
+                    <textarea class="form-control" rows="5" name="contenu"
+                        placeholder="Décrivez votre expérience..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3">
+                    <i class="fas fa-paper-plane me-2"></i>Envoyer l'avis
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Avis récents -->
+    <h2 class="text-center mb-4 fade-in">
+        <i class="fas fa-comments text-primary me-2"></i>Avis Récents
+    </h2>
+
+    <div class="row g-4">
+        {% for avis in page_obj %}
+        <div class="col-12 col-md-6 col-lg-4 fade-in">
+            <div class="card card-hover h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar bg-primary text-white rounded-circle me-4 p-2">
+                            <h1>{{ avis.nom|first|upper }}</h1>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">{{ avis.nom }}</h5>
+                            <small class="mb-0">A propos du/de : {{ avis.type_avis }}</small><br>
+                            <small class="text-muted">{{ avis.date }}</small>
+                        </div>
+                    </div>
+
+                    <!-- Affichage des étoiles -->
+                    <div class="mb-3">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star {% if i|add:0 <= avis.rating %}text-warning{% else %}text-muted{% endif %}"
+                            data-value="{{ i }}"></i>
+                        {% endfor %}
+                    </div>
+
+                    <p class="card-text">{{ avis.contenu }}</p>
+
+                    <!-- Bouton de suppression -->
+                    {% if request.user.role == "Administrateur" %}
+                    <form action="{% url 'delete_avis' avis.id %}" method="POST"
+                        onsubmit="return confirmDelete(event, this);">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="col-12 mt-4">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <div class="text-center">
+                <span class="badge bg-primary">{{ page_obj.paginator.count }} avis</span>
+            </div>
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="Première page">&#8592; Précédent</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&#8592; Précédent</span>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Dernière page">Suivant
+                    &#8594;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Suivant &#8594;</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+</div>
+</div>
+
+
+
+<section class="container mt-5 my-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 text-black " style="color: black;">Pourquoi vos avis sont importants ?
+                    </h3>
+                    <p class="card-text mb-4 ">
+                        Vos avis sont essentiels pour nous aider à améliorer constamment nos services. En partageant
+                        vos expériences, vous contribuez à guider d'autres personnes dans leur choix et à nous
+                        fournir des informations précieuses sur ce que nous faisons bien et les
+                        domaines dans lesquels nous pouvons nous améliorer. Chaque commentaire compte et nous aide à
+                        offrir une meilleure expérience à nos clients.
+                    </p>
+                    <h5 class="card-title" style="color: black;">Confidentialité et respect de vos données</h5>
+                    <p class="card-text">
+                        Soyez assuré que la confidentialité de vos informations est une priorité pour nous. Nous
+                        respectons la protection de vos données personnelles et nous nous engageons à ne jamais
+                        partager vos informations sans votre consentement explicite. Vos avis seront
+                        utilisés uniquement à des fins d'amélioration de notre service, dans le strict respect de la
+                        législation en vigueur sur la protection des données.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const ratingLabels = {
+        1: "Mauvais - Expérience très décevante",
+        2: "Médiocre - Quelques problèmes importants",
+        3: "Moyen - Correct mais peut être amélioré",
+        4: "Bon - Expérience satisfaisante",
+        5: "Excellent - Parfait à tous points de vue"
+    };
+
+    let currentRating = 0;
+    let hoveredRating = 0;
+
+    function highlightStars(star) {
+        if (currentRating > 0) return;
+
+        const value = parseInt(star.dataset.value);
+        hoveredRating = value;
+
+        document.querySelectorAll('.rating-stars .star').forEach((s, index) => {
+            const starValue = parseInt(s.dataset.value);
+            s.classList.toggle('hovered', starValue <= value);
+        });
+
+        document.getElementById('ratingLabel').textContent = ratingLabels[value];
+    }
+
+    function resetStars() {
+        if (currentRating > 0) return;
+
+        document.querySelectorAll('.rating-stars .star').forEach(s => {
+            s.classList.remove('hovered');
+        });
+        document.getElementById('ratingLabel').textContent = '';
+    }
+
+    function setRating(star) {
+        const value = parseInt(star.dataset.value);
+        currentRating = value;
+        hoveredRating = 0;
+
+        // Mettre à jour les classes
+        document.querySelectorAll('.rating-stars .star').forEach((s, index) => {
+            const starValue = parseInt(s.dataset.value);
+            s.classList.toggle('active', starValue <= value);
+            s.classList.remove('hovered');
+        });
+
+        // Mettre à jour le label et l'input caché
+        document.getElementById('ratingLabel').textContent = ratingLabels[value];
+        document.getElementById('ratingValue').value = value;
+    }
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.rating-stars .star').forEach(star => {
+            star.querySelector('i').style.color = '#ddd';
+        });
+    });
+
+</script>
+<script>
+    function confirmDelete(event, form) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Êtes-vous sûr ?',
+            text: "Cette action est irréversible !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, supprimer !'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+</script>
+
+
+
+{% endblock %}

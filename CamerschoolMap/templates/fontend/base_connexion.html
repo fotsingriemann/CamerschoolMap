@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'fontend/images/img1-removebg-preview.png' %}">
+    <title>CamerSchoolMap</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'fontend/css/bootstrap.min.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'fontend/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontend/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'fontend/css/style1.css' %}">
+    <link rel="stylesheet" href="{% static 'fontend/css/tiny-slider.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<style>
+    .navbar {
+        background-color: #191616;
+
+    }
+    .navbar-brand {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000; /* Garde le logo au-dessus du menu */
+    }
+
+    .navbar-toggler {
+        position: relative;
+        z-index: 1001; /* Garde le bouton au-dessus du logo */
+        margin-right: 15px;
+    }
+    .highlight {
+        background-color: yellow;
+    }
+
+
+     /* Ajoutez ces règles CSS à la fin de votre balise style */
+     @media (max-width: 992px) {
+        .navbar-nav {
+            padding: 20px 0;
+            background-color: #191616; /* Conserve la couleur de fond */
+        }
+        
+        .nav-item {
+            margin: 5px 0 !important;
+            text-align: center;
+        }
+        
+        .btn-login {
+            border: none;
+            padding: 0;
+            margin: 10px auto;
+            display: block;
+            width: fit-content;
+        }
+        
+        .dropdown-menu {
+            text-align: center;
+            background-color: #ed671f; /* Conserve la couleur du dropdown */
+        }
+        
+        .search-container span {
+            display: none;
+        }
+        
+        .navbar-brand {
+            top: 15px; /* Position fixe depuis le haut */
+            transform: none; /* Supprime le centrage vertical */
+        }
+        
+        .navbar-collapse {
+            margin-top: 100px; /* Espace pour le logo */
+        }
+
+    }
+
+    @media (max-width: 768px) {
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .navbar-toggler {
+            margin-right: 15px;
+        }
+        .navbar-brand {
+            top: 10px;
+            left: 10px;
+        }
+        
+        .navbar-brand img {
+            width: 40px !important;
+            height: 40px !important;
+        }
+    }
+</style>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top ">
+        <div class="container-fluid py-2 d-flex align-items-center justify-content-end">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'fontend/images/logo.jpg' %}" alt="Logo" class="img-fluid imgs-fluid">
+            </a>
+            <button class="navbar-toggler fieldBox bg-success" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><i class="fas fa-home"></i>
+                            Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'blog' %}"><i class="fas fa-book"></i> Blog
+                            éducatif</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'avis' %}"><i class="fas fa-comments"></i>
+                            Commentaires</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'detail' %}"><i class="fas fa-dashboard"></i></a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="langueDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Français</a></li>
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"><i class="fas fa-envelope"></i>
+                            Contactez-nous</a>
+                    <li class="nav-item">
+                        {% if request.user.is_authenticated %}
+                        <a class="btn btn-login nav-link" href="#" id="logoutBtn">
+                            <i class="fas fa-user"></i> Déconnexion
+                        </a>
+                        {% else %}
+                        <a class="btn btn-login" href="{% url 'connexion' %}">
+                            <i class="fas fa-user"></i> Connexion
+                        </a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item search-container" data-bs-toggle="modal" data-bs-target="#searchModal">
+                        <i class="fas fa-search search-icon"></i> Recherche
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Modal de recherche -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white">
+                    <h5 class="modal-title" id="searchModalLabel">Rechercher</h5>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Entrez votre recherche...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-success" id="searchButton">Rechercher</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end navbar -->
+    {% block content %}
+    
+    {% endblock %}
+
+
+    <footer class="footer justify-content-center text-white text-center bg-secondary fixed-bottom" style="margin-top: 40px;">
+        <div class="my-3">
+            <p>CamerSchoolMap 2025 || tout droit reserver</p>
+        </div>
+    </footer>
+
+
+    <!-- End Footer Section -->
+
+    <script src="{% static 'fontend/js/tiny-slider.js' %}"></script>
+    <script src="{% static 'fontend/js/all.min.js' %}"></script>
+    <script src="{% static 'fontend/js/Bootstrap.bundle.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{% static 'backend/assets/images/logo.jpg' %}" class="rounded-circle">
+    <title>CamerSchoolMap</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/CSS/all.min.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/jvectormap/jquery-jvectormap.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/owl-carousel-2/owl.carousel.min.cs' %}s">
+    <link rel="stylesheet" href="{% static 'backend/assets/vendors/owl-carousel-2/owl.theme.default.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'backend/assets/css/style.css' %}">
+    <!-- End layout styles -->
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+                <a class="sidebar-brand brand-logo text-white" href="{% url 'dashbord' %}">
+                    <span><span class="text-success">Camer</span><span class="text-danger">School</span><span
+                            class="text-warning">Map</span></span>
+                </a>
+                <a class="sidebar-brand brand-logo-mini text-white" href="{% url 'dashbord' %}">
+                    <img src="{% static 'backend/assets/images/logo.jpg' %}" alt="Logo" class="rounded-circle "
+                        style="width: 40px; height: 40px; margin-right: 8px;">
+                </a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item profile">
+                    <div class="profile-desc">
+                        <div class="profile-pic">
+                            <div class="count-indicator rounded-circle bg-gradient-warning  text-danger px-3">
+                                <h1>{{ request.user.username|first|upper }}</h1>
+                                <span class="count bg-success"></span>
+                            </div>
+                            <div class="profile-name">
+                                <h5 class="mb-0 font-weight-normal">{{ request.user.username }}</h5>
+                                <span class="etoiles text-center " style="color: orange;">★★★★★★★</span>
+                            </div>
+                        </div>
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
+                                class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
+                            aria-labelledby="profile-dropdown">
+                            <a href="#" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'setting' %}" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-onepassword  text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                                </div>
+                            </a>
+                            {% if request.user.is_authenticated %}
+                            <a href="#" id="logoutBtn" class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-logout text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small btn btn-danger">Se déconnecter
+                                    </p>
+                                </div>
+                            </a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item nav-category">
+                    <span class="nav-link">Navigation</span>
+                </li>
+                {% if request.user.role == "Utilisateur" %}
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'avis' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Commentaire</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'dashbord' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                {% endif %}
+            
+                <!-- Option Accueil visible pour tous -->
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'index' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-speedometer"></i>
+                        </span>
+                        <span class="menu-title">Accueil</span>
+                    </a>
+                </li>
+            
+                {% if request.user.role == "Administrateur" %}
+                <!-- Options visibles uniquement pour l'administrateur -->
+                <li class="nav-item menu-items">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account"></i>
+                        </span>
+                        <span class="menu-title">Utilisateurs</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="{% url 'register' %}">Ajouter</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{% url 'historique' %}">Consulter l'historique</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'school' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-school"></i>
+                        </span>
+                        <span class="menu-title">Add the school</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'historique_ecole' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-school"></i>
+                        </span>
+                        <span class="menu-title">Historique des écoles</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'detail' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Gestion des écoles</span>
+                    </a>
+                </li>
+            
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'avis' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-chart-bar"></i>
+                        </span>
+                        <span class="menu-title">Gestion des avis</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'documentation' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-book-lock"></i>
+                        </span>
+                        <span class="menu-title">Documentation</span>
+                    </a>
+                </li>
+                {% endif %}
+            
+                {% if request.user.role == "Chef d'établissement" %}
+                <!-- Le Chef d'établissement n'a pas accès aux options suivantes -->
+                {% comment %}
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'avis' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-chart-bar"></i>
+                        </span>
+                        <span class="menu-title">Gestion des avis</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'detail' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large"></i>
+                        </span>
+                        <span class="menu-title">Gestion des écoles</span>
+                    </a>
+                </li>
+                {% endcomment %}
+                {% endif %}
+            
+                <!-- Parametres visible pour tous -->
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'setting' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-settings"></i>
+                        </span>
+                        <span class="menu-title">Paramètres</span>
+                    </a>
+                </li>
+            
+                {% if request.user.role != "Administrateur" %}
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'detail_users' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-book-lock"></i>
+                        </span>
+                        <span class="menu-title">Etablissement</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'contact' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-phone-alert"></i>
+                        </span>
+                        <span class="menu-title">Contactez-nous</span>
+                    </a>
+                </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'blog' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-book-lock-open"></i>
+                        </span>
+                        <span class="menu-title">Blog éducatif</span>
+                    </a>
+                </li>
+                {% if request.user.is_authenticated %}
+                <!-- <a class="btn btn-login nav-link" href="#" id="logoutBtn">
+                    <i class="fas fa-user"></i> Déconnexion
+                </a> -->
+                {% else %}
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'inscription' %}"> 
+                        <span class="menu-icon">
+                            <i class="mdi mdi-account-alert"></i>
+                        </span>
+                        <span class="menu-title">Inscription</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% endif %}
+            </ul>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_navbar.html -->
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+                <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                    <a class="navbar-brand " href="{% url 'dashbord' %}"><img
+                            src="{% static 'backend/assets/images/logo.Jpg' %}" alt="logo" class="rounded-circle" /></a>
+                </div>
+                <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                        data-toggle="minimize">
+                        <span class="mdi mdi-menu"></span>
+                    </button>
+                    <ul class="navbar-nav w-100">
+                        <li class="nav-item w-100">
+                            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                                <input type="text" class="form-control" placeholder="Search products">
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        {% if request.user.role == "Administrateur" %}
+                        <li class="nav-item dropdown d-none d-lg-block">
+                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
+                                data-toggle="dropdown" aria-expanded="false" href="#">+ Créer un nouvel utilisateur</a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                aria-labelledby="createbuttonDropdown">
+                                <h6 class="p-3 mb-0">Utilisateurs</h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item preview-item" href="{% url 'register' %}">
+                                    <div class="preview-thumbnail">
+                                        <div class="preview-icon bg-dark rounded-circle">
+                                            <i class="mdi mdi-file-outline text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="preview-item-content">
+                                        <p class="preview-subject ellipsis mb-1">Créer</p>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item preview-item " href="{% url 'historique' %}">
+                                    <div class="preview-thumbnail">
+                                        <div class="preview-icon bg-dark rounded-circle">
+                                            <i class="mdi mdi-web text-info"></i>
+                                        </div>
+                                    </div>
+                                    <div class="preview-item-content">
+                                        <p class="preview-subject ellipsis mb-1">Consulter l'historique</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        {% elif request.user.role == "Chef d'établissement" %}
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-success create-new-button" href="{% url 'register' %}">
+                                + Ajouter un utilisateur
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item dropdown border-left">
+                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
+                                data-toggle="dropdown" aria-expanded="false">
+                                <i class="mdi mdi-translate "></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                aria-labelledby="messageDropdown">
+                                <h6 class="p-3 mb-0">changer de langue.</h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item preview-item">
+                                    <div class="preview-item-content">
+                                        <p class="preview-subject ellipsis mb-1">Anglais</p>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item preview-item">
+                                    <div class="preview-item-content">
+                                        <p class="preview-subject ellipsis mb-1">Francais</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown border-left">
+                            <a class="nav-link count-indicator dropdown-toggle" href="{% url 'error-404' %}">
+                                <i class="mdi mdi-bell"></i>
+                                <span class="count text-danger mx-1 h3">4</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                                    aria-labelledby="profileDropdown">
+                                    <h6 class="p-3 mb-0">Profile</h6>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-settings text-success"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <p class="preview-subject mb-1">Settings</p>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-logout text-danger"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <p class="preview-subject mb-1">Log out</p>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <p class="p-3 mb-0 text-center">Advanced settings</p>
+                                </div>
+                        </li>
+                    </ul>
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                        data-toggle="offcanvas">
+                        <span class="mdi mdi-format-line-spacing"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- end nav -->
+
+
+
+
+
+            {% block content %}
+
+
+            {% endblock %}
+
+
+
+
+
+
+
+
+        </div>
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer " style="margin-left: 35%;">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
+                    CamerschoolMap.com 2025span>
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Make <a href="#"> in
+                            CAMEROUN</a> BY TABETSING LUCAS</span>
+            </div>
+        </footer>
+        <!-- partial -->
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'backend/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'backend/assets/vendors/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'backend/assets/vendors/progressbar.js/progressbar.min.js' %}"></script>
+    <script src="{% static 'backend/assets/vendors/jvectormap/jquery-jvectormap.min.js' %}"></script>
+    <script src="{% static 'backend/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <script src="{% static 'backend/assets/vendors/owl-carousel-2/owl.carousel.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'backend/assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'backend/assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'backend/assets/js/misc.js' %}"></script>
+    <script src="{% static 'backend/assets/js/all.min.js' %}"></script>
+    <script src="{% static 'backend/assets/js/settings.js' %}"></script>
+    <script src="{% static 'backend/assets/js/todolist.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'backend/assets/js/dashboard.js' %}"></script>
+    <script src="{%  static 'backend/assets/js/chart.js' %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            {% for message in messages %}
+            Swal.fire({
+                title: "{% if message.tags == 'success' %}Succès !{% elif message.tags == 'error' %}Erreur !{% elif message.tags == 'warning' %}Attention !{% else %}Info{% endif %}",
+                text: "{{ message }}",
+                icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% else %}info{% endif %}",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK"
+            });
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("logoutBtn").addEventListener("click", function () {
+                Swal.fire({
+                    title: " <span style='color:black;'>Voulez-vous vraiment vous déconnecter ?</span>",
+                    text: "Vous devrez vous reconnecter pour accéder à votre compte.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, déconnectez-moi",
+                    cancelButtonText: "Annuler"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch("{% url 'deconnexion' %}", {
+                            method: "POST",
+                            headers: {
+                                "X-CSRFToken": "{{ csrf_token }}",
+                                "Content-Type": "application/json"
+                            },
+                            credentials: "same-origin"
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.message) {
+                                    Swal.fire("Déconnecté!", data.message, "success").then(() => {
+                                        location.reload(); // Recharge la page après déconnexion
+                                    });
+                                }
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

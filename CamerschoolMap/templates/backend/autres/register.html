@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="{% static 'backend/assets/images/logo.jpg' %}" class="rounded-circle">
+  <title>CamerSchoolMap</title>
+  <link rel="stylesheet" href="{% static 'backend/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'backend/assets/vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'backend/assets/css/style.css' %}">
+</head>
+<style>
+  .background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  .background-video video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<body class="background-video">
+  <div class="background-video">
+    <video autoplay loop muted>
+      <source src="{% static 'fontend/images/video.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="row w-100 m-0">
+        <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+          <div class="card col-lg-4 mx-auto">
+            <div class="card-body px-5 py-5">
+              <h3 class="card-title text-left mb-3">Enregistrement d'un utilisateur</h3>
+              <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label><i class="mdi mdi-account text-success h4"></i> Nom</label>
+                  <input type="text" name="username" class="form-control p_input" value="{{ request.POST.username }}" required>
+                </div>
+              
+                <div class="form-group">
+                  <label><i class="mdi mdi-email-variant text-success h4"></i> Email</label>
+                  <input type="email" name="email" class="form-control p_input" value="{{ request.POST.email }}" required>
+                </div>
+                
+                {% if request.user.role == "Administrateur" %}
+                <div class="form-group">
+                  <label><i class="mdi mdi-ticket text-success h4"></i> Status</label>
+                  <select name="role" class="form-control text-white" id="role">
+                    <option value="Utilisateur" {% if request.POST.role == "Utilisateur" %}selected{% endif %}>Utilisateur</option>
+                    <option value="Chef d'etablissement" {% if request.POST.role == "Chef d'etablissement" %}selected{% endif %}>Chef d'établissement</option>
+                    <option value="Administrateur" {% if request.POST.role == "Administrateur" %}selected{% endif %}>Administrateur</option>
+                  </select>
+                </div>
+                {% endif %}
+              
+                <div class="form-group">
+                  <label><i class="mdi mdi-phone text-success h4"></i> Numero de telephone</label>
+                  <input type="text" name="phone" class="form-control p_input" value="{{ request.POST.phone }}" required>
+                </div>
+              
+                <div class="form-group">
+                  <label><i class="mdi mdi-lock text-success h4"></i> Password</label>
+                  <input type="password" name="password" class="form-control p_input" required>
+                </div>
+              
+                <div class="text-center">
+                  <button type="submit" class="btn btn-success btn-block enter-btn">
+                    <i class="mdi mdi-account-plus text-warning h4"></i> Ajouter
+                  </button>
+                </div>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation -->
+  {% if messages %}
+  <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="messageModalLabel">
+            {% if messages.0.tags == 'error' %}
+            Erreur
+            {% else %}
+            Succès
+            {% endif %}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% for message in messages %}
+          <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <script src="{% static 'backend/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'backend/assets/js/off-canvas.js' %}"></script>
+  <script src="{% static 'backend/assets/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'backend/assets/js/misc.js' %}"></script>
+  <script src="{% static 'backend/assets/js/settings.js' %}"></script>
+  <script src="{% static 'backend/assets/js/todolist.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  {% if messages %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      {% for message in messages %}
+      Swal.fire({
+        title: "{% if message.tags == 'success' %}Succès{% else %}Erreur{% endif %}",
+        text: "{{ message }}",
+        icon: "{{ message.tags|default:'info' }}",  // 'success', 'error', etc.
+        confirmButtonText: 'OK'
+      });
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
+
+</body>
+
+</html>

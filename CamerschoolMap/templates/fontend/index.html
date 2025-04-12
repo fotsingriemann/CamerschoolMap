@@ -1,0 +1,433 @@
+{% extends 'fontend/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .hover-shadow {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-card {
+        background: white;
+        border-radius: 15px;
+        transition: all 0.3s;
+    }
+
+    .partner-logo {
+        opacity: 0.7;
+        transition: opacity 0.3s;
+        padding: 20px;
+    }
+
+    .partner-logo:hover {
+        opacity: 1;
+    }
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .card-body {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        label,
+        .card-title,
+        .card-text {
+            font-size: 16px !important;
+        }
+
+        .btn {
+            font-size: 14px !important;
+        }
+
+        .review-text,
+        .review-author,
+        .review-date {
+            font-size: 14px !important;
+        }
+
+        .container,
+        .container_avis {
+            padding: 10px;
+        }
+    }
+</style>
+
+<!-- Section 1 : Bienvenue (conservée intacte) -->
+<section class="welcome-section d-flex align-items-center justify-content-center py-5">
+    <div class="overlay d-flex justify-content-center align-items-center w-100 h-100"
+        style="background-color: rgba(0, 0, 0, 0.4);">
+        <div class="container text-center text-white data-aos=" zoom-in"">
+            <h1 class="display-4 font-weight-bold mb-4 animate__animated animate__fadeInDown"> Bienvenue sur <span
+                    class="text-success">Camer</span><span class="text-danger">School</span><span
+                    class="text-warning">Map</span></h1>
+            <p class="mb-4 text-white">Votre portail pour découvrir et explorer les établissements scolaires à travers
+                le Cameroun. Que vous soyez à la recherche d'une école pour vos enfants ou intéressé par l'éducation
+                dans la région, vous êtes au bon endroit. Trouvez facilement
+                ce que vous cherchez et prenez la meilleure décision pour l'avenir de vos enfants.</p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'detail_users' %}" class="btn btn-success btn-lg mx-2">Rechercher un établissement</a>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'setting' %}" class="btn btn-primary btn-lg mx-2">Tableau de bord</a>
+                {% endif %}
+                <a href="#" class="btn btn-warning btn-lg mx-2" data-bs-toggle="modal"
+                    data-bs-target="#searchModal1">Visiter</a>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de recherche -->
+    <div class="modal fade" id="searchModal1" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-white">
+                    <h5 class="modal-title" id="searchModalLabel">Rechercher une ville</h5>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Champ de recherche -->
+                    <input type="text" id="searchInput" class="form-control" placeholder="Entrez votre recherche...">
+                    <!-- Liste des villes -->
+                    <div id="cityList" class="mt-3">
+                        <a class="dropdown-item text-black" href="{% url 'camer' %}">Cameroun</a>
+                        <a class="dropdown-item text-black" href="#">Yaoundé</a>
+                        <a class="dropdown-item text-black" href="#">Douala</a>
+                        <a class="dropdown-item text-black" href="{% url 'baf' %}">Bafoussam</a>
+                        <a class="dropdown-item text-black" href="#">Ngaoundéré</a>
+                        <a class="dropdown-item text-black" href="#">Ebolowa</a>
+                        <a class="dropdown-item text-black" href="#">Bamenda</a>
+                        <a class="dropdown-item text-black" href="#">Bertoua</a>
+                        <a class="dropdown-item text-black" href="#">Garoua</a>
+                        <a class="dropdown-item text-black" href="#">Maroua</a>
+                        <a class="dropdown-item text-black" href="#">Edéa</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-success" id="searchButton">Rechercher</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2 améliorée : Cartes interactives -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Pourquoi choisir <span class="text-success">CamerSchoolMap</span> ?</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4" data-aos="flip-left">
+                <div class="card h-100 hover-shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Localisation intelligente</h5>
+                        <p class="card-text">Trouvez les établissements près de chez vous avec notre technologie de
+                            géolocalisation avancée</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="flip-left">
+                <div class="card h-100 hover-shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-star fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Évaluations et avis</h5>
+                        <p class="card-text">Trouvez les établissements près de chez vous avec notre technologie de
+                            géolocalisation avancée</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="flip-left">
+                <div class="card h-100 hover-shadow">
+                    <div class="card-body text-center">
+                        <i class="fas  fa-chart-line fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Données actualisées</h5>
+                        <p class="card-text">Trouvez les établissements près de chez vous avec notre technologie de
+                            géolocalisation avancée</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Nouvelle Section : Statistiques -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4" data-aos="fade-up">
+                <i class="fas fa-school fa-3x mb-3"></i>
+                <h3>500+ Écoles</h3>
+                <p>Répertoriées à travers le pays</p>
+            </div>
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <h3>10 000+ Utilisateurs</h3>
+                <p>Communauté active</p>
+            </div>
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-map-marked-alt fa-3x mb-3"></i>
+                <h3>10 Régions</h3>
+                <p>Couvertes par notre service</p>
+            </div>
+            <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-star fa-3x mb-3"></i>
+                <h3>4.8/5</h3>
+                <p>Note moyenne des établissements</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Nouvelle Section : Fonctionnalités premium -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6" data-aos="fade-right">
+                <h2>Comment ça marche ?</h2>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i> Recherchez une école par
+                        ville ou département.</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Comparez les établissements
+                        grâce aux fiches détaillées.</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Consultez les avis d’anciens
+                        élèves et parents.</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Contactez l’établissement
+                        directement via la plateforme.</li>
+                </ul>
+            </div>
+            <div class="col-md-6" data-aos="fade-left">
+                <h2>Fonctionnalités exclusives</h2>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Alertes personnalisées</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Comparateur en temps réel</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success mr-2"></i>Rapports détaillés</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section témoignages améliorée -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-5 text-center">Ils nous font confiance</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4" data-aos="zoom-in">
+                <div class="testimonial-card p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% static 'fontend/images/user-avatar' %}" alt="Avatar" class="rounded-circle mr-3" width="60">
+                        <div>
+                            <h5>Parent satisfait</h5>
+                            <div class="star-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-0">Une super plateforme qui m'a aidé à trouver la meilleure école pour mon enfant !</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="zoom-in">
+                <div class="testimonial-card p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% static 'fontend/images/user-avatar' %}" alt="Avatar" class="rounded-circle mr-3" width="60">
+                        <div>
+                            <h5>Etudiant/ Eléve</h5>
+                            <div class="star-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-0">"Grâce à CamerSchoolMap, j'ai pu comparer plusieurs établissements et faire un choix
+                        éclairé."</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4" data-aos="zoom-in">
+                <div class="testimonial-card p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% static 'fontend/images/user-avatar' %}" alt="Avatar" class="rounded-circle mr-3" width="60">
+                        <div>
+                            <h5>Chefs d'etablissements</h5>
+                            <div class="star-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-0">"Un outil indispensable pour les familles ! Très facile à utiliser."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container">
+        <h2 class="mb-5 text-center"><i class="fas fa-school mx-2 text-primary"></i>Galerie des Établissements Scolaires
+        </h2>
+        <!-- Galerie -->
+        <div class="row g-3">
+            {% for etablissement in page_obj %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 shadow-sm border-0">
+                    <a href="{% url 'detail_users' %}?nom={{ etablissement.nom|urlencode }}"
+                        class="text-decoration-none text-dark">
+                        <!-- Image container - fixed height -->
+                        <div class="position-relative" style="height: 150px; overflow: hidden;">
+                            {% if etablissement.image_profil %}
+                            <img src="{{ etablissement.image_profil.url }}"
+                                class="img-fluid w-100 h-100 object-fit-cover" alt="{{ etablissement.nom }}"
+                                loading="lazy">
+                            {% else %}
+                            <img src="{% static 'images/default-school.jpg' %}"
+                                class="img-fluid w-100 h-100 object-fit-cover" alt="Établissement scolaire"
+                                loading="lazy">
+                            {% endif %}
+                        </div>
+
+                        <!-- Card body with better spacing -->
+                        <div class="card-body p-3">
+                            <!-- Establishment name - responsive font size -->
+                            <h5 class="card-title fs-6 fs-sm-5 mb-1 text-truncate" title="{{ etablissement.nom }}">
+                                {{ etablissement.nom }}
+                            </h5>
+
+                            <!-- Location info - stacked on mobile -->
+                            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-1">
+                                <span class="text-muted small">
+                                    <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                    <span class="d-inline d-sm-none">{{ etablissement.ville }}</span>
+                                    <span class="d-none d-sm-inline">{{ etablissement.ville }}, {{ etablissement.departement }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>Aucun établissement trouvé.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination améliorée -->
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Pagination" class="mt-5">
+            <ul class="pagination justify-content-center flex-wrap">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="Première">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Précédent">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Suivant">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Dernière">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Fonction pour filtrer les villes
+        function filterCities(searchText) {
+            $('#cityList .dropdown-item').each(function () {
+                const cityName = $(this).text().toLowerCase(); // Récupère le nom de la ville en minuscules
+                if (cityName.includes(searchText.toLowerCase())) {
+                    $(this).show(); // Affiche la ville si elle correspond à la recherche
+                } else {
+                    $(this).hide(); // Cache la ville si elle ne correspond pas
+                }
+            });
+        }
+
+        // Événement lors de la saisie dans le champ de recherche
+        $('#searchInput').on('input', function () {
+            const searchText = $(this).val(); // Récupère le texte saisi
+            filterCities(searchText); // Filtre les villes
+        });
+
+        // Événement lors du clic sur le bouton "Rechercher"
+        $('#searchButton').on('click', function () {
+            const searchText = $('#searchInput').val(); // Récupère le texte saisi
+            filterCities(searchText); // Filtre les villes
+        });
+
+        // Réinitialiser la liste des villes lorsque le modal est fermé
+        $('#searchModal').on('hidden.bs.modal', function () {
+            $('#searchInput').val(''); // Vide le champ de recherche
+            $('#cityList .dropdown-item').show(); // Affiche toutes les villes
+        });
+    });
+</script>
+{% endblock %}

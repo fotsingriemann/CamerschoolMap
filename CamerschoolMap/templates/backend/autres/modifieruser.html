@@ -1,0 +1,63 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+
+<!-- partial -->
+
+
+<div class="content-wrapper">
+  <div class="row" style="margin-top: 5%;">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center">Modifier les informations de l'utiisateur avec l'ID == <strong
+              style="color: rgb(0, 100, 17);">{{ user.id }}</strong></h2>
+          <p class="card-description text-center">viellez remplir entierement ces champs pour pouvons modifier un
+            utilisateur du site </p>
+          <form class="forms-sample" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputName1" class="text-white">Nom</label>
+              <input type="text" name="nom" class="form-control" id="exampleInputName1" value="{{ user.username }}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail3" class="text-white">email</label>
+              <input type="email" class="form-control" id="exampleInputEmail3" value="{{ user.email }}"
+                name="email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword4" class="text-white">numero de telephone</label>
+              <input type="text" name="phone" class="form-control" id="exampleInputPassword4"
+                value="{{ user.phone }}">
+            </div>
+            <div class="form-group">
+              <label for="role" class="text-white"> Status</label>
+              <select name="role" value="{{ user.role }}" class="form-control text-white" id="role">
+                <option value="Utilisateur">Utilisateur</option>
+                <option value="Chef d'etablissement">Chef d'etablisement</option>
+                <option value="Administrateur">Administrateur</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success mr-2">Modifier</button>
+            <a href="{% url 'historique' %}">
+              <button class="btn btn-dark">Abandonner</button>
+            </a>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+  </div>
+</div>
+</div>
+
+
+
+
+{% endblock %}

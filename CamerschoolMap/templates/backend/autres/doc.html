@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - CamerSchoolMap 2025</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #191616;
+            --secondary-color: #39A9DB;
+            --accent-color: #FFC857;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .csm-header {
+            background: var(--primary-color);
+            padding: 1rem;
+            justify-content: center;
+            text-align: center;
+            display: flex;
+            box-shadow: 0 4px 15px rgba(192, 18, 18, 0.1);
+        }
+
+        .doc-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .nav-sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 20px;
+        }
+
+        .doc-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        .feature-badge {
+            background: var(--accent-color);
+            color: #333;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 15px rgba(57,169,219,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .doc-container {
+                margin: 1rem;
+            }
+            
+            .nav-sticky {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="csm-header">
+        <div class="container">
+            <div class=" text-center  ">
+                <img src="{% static 'fontend/images/logo.jpg' %}" class="rounded-circle" alt="CamerSchoolMap 2025" style="height: 40px;">
+                <h3 class="text-white text-center mb-0 ms-3">Centre d'Aide Professionnel</h3>
+            </div>
+        </div>
+    </header>
+
+    <div class="container doc-container">
+        <div class="row g-4">
+            <!-- Navigation latérale -->
+            <div class="col-lg-3">
+                <div class="doc-card p-3 nav-sticky">
+                    <h5 class="mb-3 text-primary"><i class="fas fa-book-open me-2"></i>Sommaire</h5>
+                    <nav class="nav flex-column">
+                        <a class="nav-link hover-glow" href="#section-basics">
+                            <i class="fas fa-info-circle me-2"></i>Informations de base
+                        </a>
+                        <a class="nav-link hover-glow" href="#section-media">
+                            <i class="fas fa-images me-2"></i>Médias & Description
+                        </a>
+                        <a class="nav-link hover-glow" href="#section-contact">
+                            <i class="fas fa-address-book me-2"></i>Coordonnées
+                        </a>
+                        <a class="nav-link hover-glow" href="#section-actions">
+                            <i class="fas fa-play-circle me-2"></i>Actions
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-lg-9">
+                <div class="doc-card p-4">
+                    <div data-aos="fade-up">
+                        <h1 class="text-center mb-4 text-primary">
+                            <i class="fas fa-graduation-cap me-2"></i>Guide d'Utilisation
+                        </h1>
+                        <p class="lead text-center text-muted mb-5">
+                            Ajouter un établissement scolaire sur CamerSchoolMap 
+                        </p>
+                    </div>
+
+                    <!-- Section 1 -->
+                    <section id="section-basics" class="mb-5" data-aos="fade-right">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="step-icon">
+                                <i class="fas fa-info"></i>
+                            </div>
+                            <h3 class="mb-0">1. Informations Fondamentales</h3>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 hover-glow">
+                                    <h5><i class="fas fa-signature text-primary me-2"></i>Nom Officiel</h5>
+                                    <p class="text-muted">Nom complet enregistré au MINESEC (ex: "Lycée Bilingue de Bastos")</p>
+                                    <span class="feature-badge">Champ obligatoire</span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="p-3 hover-glow">
+                                    <h5><i class="fas fa-city text-primary me-2"></i>Localisation</h5>
+                                    <ul class="text-muted">
+                                        <li>Sélectionnez la ville dans la liste déroulante</li>
+                                        <li>Précisez le département si nécessaire</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 2 -->
+                    <section id="section-media" class="mb-5" data-aos="fade-left">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="step-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <h3 class="mb-0">2. Présentation Visuelle</h3>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Conseil : Utilisez des images haute résolution (min. 1200x800px)
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 hover-glow">
+                                    <h5><i class="fas fa-image text-primary me-2"></i>Logo Principal</h5>
+                                    <p class="text-muted">
+                                        Formats acceptés : JPG, PNG, WEBP<br>
+                                        Taille max : 5MB
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="p-3 hover-glow">
+                                    <h5><i class="fas fa-align-left text-primary me-2"></i>Description</h5>
+                                    <p class="text-muted">
+                                        Utilisez notre éditeur enrichi pour mettre en valeur :
+                                        <span class="badge bg-secondary mt-2">Infrastructures</span>
+                                        <span class="badge bg-secondary">Programmes spéciaux</span>
+                                        <span class="badge bg-secondary">Historique</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Autres sections similaires avec animations -->
+
+                    <div class="text-center mt-5" data-aos="zoom-in">
+                        <a href="{% url 'school' %}" class="btn btn-primary btn-lg px-5">
+                            <i class="fas fa-rocket me-2"></i>Commencer maintenant
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container text-center">
+            <p class="mb-0">© 2025 CamerSchoolMap - Plateforme Officielle du Ministère de l'Éducation</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        // Smooth scroll pour la navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+    body {
+        background-color: #f4f8fb;
+        font-family: 'Arial', sans-serif;
+    }
+    /*================== Custom Navbar Styles================ */
+    
+    .navbar {
+        background-color: #343a40;
+        /* Couleur attrayante pour la navbar */
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .navbar-brand {
+        color: #28a745;
+        /* Vert pour 'Camer' */
+        font-weight: bold;
+    }
+    
+    .navbar-brand span:nth-child(2) {
+        color: #dc3545;
+        /* Rouge pour 'School' */
+    }
+    
+    .navbar-brand span:nth-child(3) {
+        color: #ffc107;
+        /* Jaune pour 'Map' */
+    }
+    
+    .navbar-nav .nav-item .nav-link {
+        color: white !important;
+        text-transform: uppercase;
+        padding: 10px 15px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+    
+    .navbar-nav .nav-item .nav-link:hover {
+        color: #ffc107 !important;
+        text-decoration: underline;
+        /* Tiret sous l'option sur hover */
+    }
+    /* Responsive styles for small screens */
+    
+    @media (max-width: 768px) {
+        .navbar-nav {
+            text-align: center;
+        }
+        .navbar-nav .nav-item {
+            width: 100%;
+            text-align: center;
+        }
+        .search-bar input {
+            width: 100%;
+        }
+        .navbar-nav .dropdown-menu {
+            width: 100%;
+        }
+    }
+    /* =========== css de la partie avis ================  */
+    
+    .search-bar input {
+        width: 100%;
+        padding-right: 40px;
+    }
+    
+    .search-bar .input-group-append button {
+        right: 0;
+    }
+    
+    .modal-content {
+        padding: 20px;
+    }
+    
+    .container_avis {
+        justify-content: center;
+    }
+    
+    .form-control_avis {
+        height: 50px;
+        border-radius: 10px;
+        font-family: "Inter", sans-serif;
+    }
+    /* =============== footer =================== */
+    
+    .before-footer-section {
+        padding: 7rem 0 12rem 0 !important;
+    }
+    
+    .blog-section {
+        padding: 7rem 0 12rem 0;
+    }
+    
+    .blog-section .post-entry a {
+        text-decoration: none;
+    }
+    
+    .blog-section .post-entry .post-thumbnail {
+        display: block;
+        margin-bottom: 20px;
+    }
+    
+    .blog-section .post-entry .post-thumbnail img {
+        border-radius: 20px;
+        -webkit-transition: .3s all ease;
+        -o-transition: .3s all ease;
+        transition: .3s all ease;
+    }
+    
+    .blog-section .post-entry .post-content-entry {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .blog-section .post-entry .post-content-entry h3 {
+        font-size: 16px;
+        margin-bottom: 0;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+    
+    .blog-section .post-entry .post-content-entry .meta {
+        font-size: 14px;
+    }
+    
+    .blog-section .post-entry .post-content-entry .meta a {
+        font-weight: 600;
+    }
+    
+    .blog-section .post-entry:hover .post-thumbnail img,
+    .blog-section .post-entry:focus .post-thumbnail img {
+        opacity: .7;
+    }
+    
+    .footer-section {
+        padding: 80px 0;
+        background: #e1e5fb;
+    }
+    
+    .footer-section .relative {
+        position: relative;
+    }
+    
+    .footer-section a {
+        text-decoration: none;
+        color: #2f2f2f;
+        -webkit-transition: .3s all ease;
+        -o-transition: .3s all ease;
+        transition: .3s all ease;
+    }
+    
+    .footer-section a:hover {
+        color: rgba(47, 47, 47, 0.5);
+    }
+    
+    .footer-section .subscription-form {
+        margin-bottom: 40px;
+        position: relative;
+        z-index: 2;
+        margin-top: 100px;
+    }
+    
+    @media (min-width: 992px) {
+        .footer-section .subscription-form {
+            margin-top: 0px;
+            margin-bottom: 80px;
+        }
+    }
+    
+    .footer-section .subscription-form h3 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #3b5d50;
+    }
+    
+    .footer-section .subscription-form .form-control {
+        height: 50px;
+        border-radius: 10px;
+        font-family: "Inter", sans-serif;
+    }
+    
+    .footer-section .subscription-form .form-control:active,
+    .footer-section .subscription-form .form-control:focus {
+        outline: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-color: #b35e04;
+        -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .footer-section .subscription-form .form-control::-webkit-input-placeholder {
+        font-size: 14px;
+    }
+    
+    .footer-section .subscription-form .form-control::-moz-placeholder {
+        font-size: 14px;
+    }
+    
+    .footer-section .subscription-form .form-control:-ms-input-placeholder {
+        font-size: 14px;
+    }
+    
+    .footer-section .subscription-form .form-control:-moz-placeholder {
+        font-size: 14px;
+    }
+    
+    .footer-section .subscription-form .btn {
+        border-radius: 10px !important;
+    }
+    
+    .footer-section .sofa-img {
+        position: absolute;
+        top: -300px;
+        z-index: 1;
+        right: -22%;
+    }
+    
+    .footer-section .sofa-img img {
+        max-width: 400px;
+    }
+    
+    .footer-section .links-wrap {
+        margin-top: 0px;
+    }
+    
+    @media (min-width: 992px) {
+        .footer-section .links-wrap {
+            margin-top: 54px;
+        }
+    }
+    
+    .footer-section .links-wrap ul li {
+        margin-bottom: 10px;
+    }
+    
+    .footer-section .footer-logo-wrap .footer-logo {
+        font-size: 32px;
+        font-weight: 500;
+        text-decoration: none;
+        color: #e37005;
+    }
+    
+    .footer-section .custom-social li {
+        margin: 2px;
+        display: inline-block;
+    }
+    
+    .footer-section .custom-social li a {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        display: inline-block;
+        background: #dce5e4;
+        color: #ff5900;
+        border-radius: 50%;
+    }
+    
+    .footer-section .custom-social li a:hover {
+        background: #e86e04;
+        color: #ffffff;
+    }
+    
+    .footer-section .border-top {
+        border-color: #dce5e4;
+    }
+    
+    .footer-section .border-top.copyright {
+        font-size: 14px !important;
+    }
+    /* -------------- blog educatif------------------- */
+    
+    .quote-section {
+        background-color: #fff;
+        padding: 40px;
+        margin: 20px 0;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .quote-section h1 {
+        font-size: 36px;
+        color: #4c6ef5;
+        text-align: center;
+    }
+    
+    .quote-section p {
+        font-size: 24px;
+        text-align: center;
+        font-style: italic;
+        color: #888;
+    }
+    
+    .intro-text {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    .method-list {
+        font-size: 16px;
+        margin-top: 30px;
+    }
+    
+    .method-item {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .method-item i {
+        color: #4c6ef5;
+        margin-right: 15px;
+    }
+    
+    .resource-link {
+        color: #4c6ef5;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    
+    .row.ressource {
+        border: 5%;
+        border-color: #000000;
+    }
+    
+    .faq-section {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        width: 100vw;
+    }
+    
+    .accordion-header {
+        font-size: 20px;
+        font-weight: bold;
+        color: #4c6ef5;
+        cursor: pointer;
+    }
+    
+    .accordion-header button {
+        width: 100%;
+        padding: 1.5%;
+        border: none;
+        border-radius: 5em;
+        background: #ffffff;
+        justify-content: space-between;
+        box-shadow: 0 0 3px black;
+        text-align: left;
+    }
+    
+    .accordion-body {
+        font-size: 16px;
+        color: #000000;
+    }
+    
+    .accordion-collapse {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+
+    /* ========mifi=============== */
+    .header {
+        background-color: #3e3e3e; /* Vert Cameroun */
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+    .filter-section {
+        margin: 20px 0;
+    }
+    .btn-filter {
+        background-color: #ffce00; /* Jaune Cameroun */
+        color: black;
+    }
+    .card-title {
+        color: #d40000; /* Rouge Cameroun */
+    }
+    .pagination {
+        justify-content: center;
+    }
+    .footer {
+        background-color: #414541;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+    }
+    /* Animation pour les cartes */
+    .card {
+        transition: transform 0.3s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }

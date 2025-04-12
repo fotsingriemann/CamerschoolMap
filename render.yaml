@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: CamerschoolMap
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn CamerschoolMap.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: CamerschoolMap.settings
+      - key: SECRET_KEY
+        value: "django-insecure-6\$vj\$gket_1w)r)vfp\$__2+^sg^xb%540vpgw@#m^^40y3hifp"
+      - key: DATABASE_URL
+        value: postgresql://school_postgres_service_user:T5tTKnWKEpPciqfym1OrmqTPQ5KEJl7D@dpg-cvt7qpjuibrs73deocpg-a.oregon-postgres.render.com/school_postgres_service
+
+databases:
+  - name: school-postgres-service
+    databaseName: school_postgres_service
+    user: school_postgres_service_user
+    password: T5tTKnWKEpPciqfym1OrmqTPQ5KEJl7D

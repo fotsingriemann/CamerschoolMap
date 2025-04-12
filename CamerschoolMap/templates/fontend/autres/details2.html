@@ -1,0 +1,476 @@
+{% extends 'fontend/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<!-- Styles personnalisés -->
+<style>
+    :root {
+        --primary-color: #05450c;
+        --secondary-color: #eac445;
+        --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+
+    .corona-gradient-card {
+        background: var(--gradient);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .school-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .school-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .img-wrapper {
+        height: 250px;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .default-image {
+        font-size: 3rem;
+        color: #ddd;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .info-item i {
+        width: 30px;
+        text-align: center;
+        margin-right: 10px;
+        color: var(--secondary-color);
+    }
+
+    .btn-explore {
+        background: var(--gradient);
+        color: white;
+        border-radius: 30px;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-explore:after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+        transition: all 0.5s;
+    }
+
+    .btn-explore:hover:after {
+        left: 50%;
+    }
+
+    .filter-panel {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 15px;
+    }
+
+    .search-bar {
+        border-radius: 50px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    .bounce-animate {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .stats-box {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin: 15px 0;
+    }
+
+    .stats-box h3 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .gradient-corona-img {
+            max-width: 120px;
+            margin: 0 auto;
+        }
+
+        .school-card {
+            margin-bottom: 25px;
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        label,
+        .card-title,
+        .card-text {
+            font-size: 16px !important;
+        }
+
+        .btn {
+            font-size: 14px !important;
+        }
+
+        .review-text,
+        .review-author,
+        .review-date {
+            font-size: 14px !important;
+        }
+    }
+</style>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <!-- En-tête amélioré -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="corona-gradient-card animate__animated animate__fadeInDown">
+                    <div class="card-body py-4">
+                        <div class="row align-items-center text-center text-lg-start">
+                            <div class="col-lg-3 text-center mb-4 mb-lg-0">
+                                <img src="{% static 'fontend/images/Group126@2x.webp' %}" 
+                                    class="img-fluid bounce-animate rounded-circle" alt="CamerSchoolMap" style="max-width: 200px;">
+                            </div>
+                            <div class="col-lg-9">
+                                <h1 class="display-4 text-white mb-3">
+                                    <i class="fas fa-map-marked-alt"></i> Cartographie Scolaire du Cameroun
+                                </h1>
+                                <div class="row">
+                                    <div class="col-md-4 stats-box mx-2">
+                                        <h3>{{ total_etablissements }}</h3>
+                                        <p class="mb-0">Établissements recensés</p>
+                                    </div>
+                                    <div class="col-md-4 stats-box">
+                                        <h3>{{ total_utilisateurs }}+</h3>
+                                        <p class="mb-0">Utilisateurs satisfaits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section de recherche avancée -->
+        <div class="container mb-5 slide-up-animate">
+            <div class="search-card p-4 rounded-4 shadow-lg">
+                <h3 class="text-center mb-4">
+                    <i class="fas fa-search-location"></i> Trouvez l'établissement idéal
+                </h3>
+                <!-- Filtres améliorés -->
+                <div class="row g-3">
+                    <!-- Barre de recherche principale -->
+                    <div class="col-12">
+                        <div class="search-bar input-group input-group-lg">
+                            <span class="input-group-text bg-white border-0">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-0"
+                                placeholder="Rechercher par nom, localisation ou type..." name="nom"
+                                value="{{ request.GET.nom }}">
+                            <button class="btn btn-primary px-4">
+                                <i class="fas fa-search me-2"></i>Rechercher
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filtres rapides -->
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="villeFilter" placeholder="Ville">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="typeFilter"
+                            placeholder="Type d'établissement(public ou privee)">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="categorieFilter"
+                            placeholder="Catégorie (primaire ou secondaire)">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="departementFilter"
+                            placeholder=" entrer votre departement">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des établissements améliorée -->
+        <div class="container my-5">
+            <div class="row g-4" id="etablissements-list">
+                {% for etablissement in etablissements %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="school-card card h-100">
+                        <div class="card-header d-flex align-items-center bg-white border-0">
+                            <div class="badge bg-primary me-2">{{ etablissement.type }}</div>
+                            <div class="badge bg-success">{{ etablissement.categorie }}</div>
+                        </div>
+
+                        <!-- Galerie d'images -->
+                        <div class="img-wrapper">
+                            {% if etablissement.image_profil %}
+                            <img src="{{ etablissement.image_profil.url }}" class="card-img-top"
+                                alt="{{ etablissement.nom }}" loading="lazy" style="object-fit: cover; height: 100%;">
+                            {% else %}
+                            <div class="default-image">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Corps de la carte -->
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">{{ etablissement.nom }}</h5>
+
+                            <div class="school-meta mb-4">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>
+                                    <span class="text-muted">4.5/5 (128 avis)</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock text-secondary me-2"></i> ville :
+                                    <span> {{ etablissement.ville }}</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock text-secondary me-2"></i> departement :
+                                    <span> {{ etablissement.departement }}</span>
+                                </div>
+                            </div>
+
+                            <div class="card-actions d-flex justify-content-between align-items-center">
+                                <a href="{% url 'detail_etablissement' etablissement.id %}"
+                                    class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-info-circle me-2"></i>Détails
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-sm btn-success" href="{% url 'avis' %}">
+                                        <i class="fas fa-heart"></i> laisser votre avis
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="no-result alert alert-info text-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Aucun établissement trouvé pour ces critères
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination améliorée -->
+            <nav class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if etablissements.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ etablissements.previous_page_number }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for page_num in etablissements.paginator.page_range %}
+                    <li class="page-item {% if etablissements.number == page_num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if etablissements.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ etablissements.next_page_number }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts d'animation -->
+<script>
+    // Animation au défilement
+    const animateOnScroll = () => {
+        document.querySelectorAll('.school-card').forEach((card, index) => {
+            const cardTop = card.getBoundingClientRect().top;
+            if (cardTop < window.innerHeight * 0.8) {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }
+        });
+    };
+
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+
+    // Interaction des filtres
+    document.querySelectorAll('.filter-tag').forEach(button => {
+        button.addEventListener('click', function () {
+            this.classList.toggle('active');
+            this.classList.toggle('btn-outline-secondary');
+            this.classList.toggle('btn-primary');
+        });
+    });
+</script>
+<script>
+ function debounce(func, delay) {
+        let timeoutId;
+        return function (...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function filterResults() {
+        let url = new URL(window.location.href);
+
+        // Récupérer les valeurs des filtres
+        let nom = document.querySelector("input[name='nom']").value.trim();
+        let ville = document.querySelector("#villeFilter").value.trim();
+        let type = document.querySelector("#typeFilter").value.trim();
+        let categorie = document.querySelector("#categorieFilter").value.trim();
+        let departement = document.querySelector("#departementFilter").value.trim();
+
+        // Mettre à jour les paramètres d'URL
+        if (nom) {
+            url.searchParams.set("nom", removeAccents(nom.toLowerCase()));
+        } else {
+            url.searchParams.delete("nom");
+        }
+
+        if (ville) {
+            url.searchParams.set("ville", removeAccents(ville.toLowerCase()));
+        } else {
+            url.searchParams.delete("ville");
+        }
+
+        if (type) {
+            url.searchParams.set("type", removeAccents(type.toLowerCase()));
+        } else {
+            url.searchParams.delete("type");
+        }
+
+        if (categorie) {
+            url.searchParams.set("categorie", removeAccents(categorie.toLowerCase()));
+        } else {
+            if (departement) {
+                url.searchParams.set("departement", removeAccents(departement.toLowerCase()));
+            } else {
+                url.searchParams.delete("departement");
+            }
+        }
+            // Requête AJAX pour mettre à jour les résultats
+            fetch(url, { method: "GET" })
+                .then(response => response.text())
+                .then(html => {
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(html, "text/html");
+                    let newContent = doc.querySelector("#etablissements-list");
+                    if (newContent) {
+                        document.querySelector("#etablissements-list").innerHTML = newContent.innerHTML;
+                    }
+                });
+        }
+
+        // Appliquer le filtre quand on tape ou sélectionne une valeur
+        document.querySelector("input[name='nom']").addEventListener("keyup", debounce(filterResults, 500));
+        document.querySelector("#villeFilter").addEventListener("keyup", debounce(filterResults, 500));
+        document.querySelector("#typeFilter").addEventListener("keyup", debounce(filterResults, 500));
+        document.querySelector("#categorieFilter").addEventListener("keyup", debounce(filterResults, 500));
+        document.querySelector("#departementFilter").addEventListener("keyup", debounce(filterResults, 500));
+</script>
+<script>
+    function debounce(func, delay) {
+        let timeoutId;
+        return function (...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function filterResults() {
+        let input = document.querySelector("input[name='nom']");
+        let query = removeAccents(input.value.toLowerCase());
+
+        let url = new URL(window.location.href);
+        url.searchParams.set("nom", query);
+
+        fetch(url, { method: "GET" })
+            .then(response => response.text())
+            .then(html => {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html, "text/html");
+                let newContent = doc.querySelector("#etablissements-list");
+                if (newContent) {
+                    document.querySelector("#etablissements-list").innerHTML = newContent.innerHTML;
+                }
+            });
+    }
+
+    document.querySelector("input[name='nom']").addEventListener("keyup", debounce(filterResults, 500));
+</script>
+
+{% endblock %}

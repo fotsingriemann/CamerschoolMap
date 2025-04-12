@@ -1,0 +1,692 @@
+body {
+    background-color: #f4f8fb;
+    /* font-family: 'Arial', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+
+.navbar-brand img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+ }
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 10px;
+}
+
+.navbar-nav .nav-link,
+.btn-login {
+    color: white !important;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.navbar-nav .nav-link:hover,
+.btn-login:hover {
+    color: orange !important;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+}
+
+.btn-login {
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.dropdown-menu {
+    background-color: #ed671f;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    background-color: orange;
+    color: black;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+}
+
+.search-icon {
+    font-size: 20px;
+    margin-right: 5px;
+} 
+
+.modal-header {
+    background-color: #191616;
+}
+
+/* LOGO À GAUCHE POUR ÉCRANS ≤ 978px */
+@media screen and (max-width: 978px) {
+    .container {
+        width: 100%;
+        position: relative;
+        
+    }
+
+    .navbar-brand {
+        position: absolute;
+        left: 0;
+        padding-left: 10px;
+    }
+}
+
+/* =========== css de la partie avis ================  */
+
+.search-bar input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.search-bar .input-group-append button {
+    right: 0;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.container_avis {
+    justify-content: center;
+}
+
+.form-control_avis {
+    height: 50px;
+    border-radius: 10px;
+    font-family: "Inter", sans-serif;
+}
+
+
+/* ===========================section 1===================== */
+
+
+/* Style for the Welcome Section */
+
+.welcome-section {
+    position: relative;
+    padding: 100px 0;
+    /* Adjust the padding to give space at the top and bottom */
+    min-height: 60vh;
+    /* Minimum height for the section */
+    background-image: url('../images/images.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+}
+.profile-info {
+    font-size: 1.2rem;
+}
+
+.welcome-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-section h1 {
+    font-size: 3rem;
+    /* Adjust the size for large screens */
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-section p {
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-section .btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.welcome-section .btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+    .welcome-section h1 {
+        font-size: 2.5rem;
+        /* Adjust title size on smaller screens */
+    }
+    .welcome-section p {
+        font-size: 1rem;
+        /* Adjust text size for readability */
+    }
+    .welcome-section .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        /* Adjust button size */
+    }
+}
+
+
+/* Effet d'ombre sur l'image lorsqu'on survole la carte */
+
+.card-img-top {
+    height: 20vh;
+}
+
+
+/* Section Styles */
+
+.regions-section {
+    padding: 60px 15px;
+    background-color: #f8f9fa;
+}
+
+.regions-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.regions-description {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #6c757d;
+}
+
+.region-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.region-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.region-card .region-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.region-card:hover {
+    transform: scale(1.05);
+}
+
+.region-card:hover .region-overlay {
+    opacity: 1;
+}
+
+.region-overlay h5 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.region-overlay p {
+    font-size: 1rem;
+}
+
+.region-card .img-fluid {
+    height: 30vh;
+}
+
+
+/* =============== footer =================== */
+
+.before-footer-section {
+    padding: 7rem 0 12rem 0 !important;
+}
+
+.blog-section {
+    padding: 7rem 0 12rem 0;
+}
+
+.blog-section .post-entry a {
+    text-decoration: none;
+}
+
+.blog-section .post-entry .post-thumbnail {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.blog-section .post-entry .post-thumbnail img {
+    border-radius: 20px;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.blog-section .post-entry .post-content-entry {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.blog-section .post-entry .post-content-entry h3 {
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.blog-section .post-entry .post-content-entry .meta {
+    font-size: 14px;
+}
+
+.blog-section .post-entry .post-content-entry .meta a {
+    font-weight: 600;
+}
+
+.blog-section .post-entry:hover .post-thumbnail img,
+.blog-section .post-entry:focus .post-thumbnail img {
+    opacity: .7;
+}
+
+.footer-section {
+    padding: 80px 0;
+    background: #e1e5fb;
+}
+
+.footer-section .relative {
+    position: relative;
+}
+
+.footer-section a {
+    text-decoration: none;
+    color: #2f2f2f;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.footer-section a:hover {
+    color: rgba(47, 47, 47, 0.5);
+}
+
+.footer-section .subscription-form {
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+    margin-top: 100px;
+}
+
+@media (min-width: 992px) {
+    .footer-section .subscription-form {
+        margin-top: 0px;
+        margin-bottom: 80px;
+    }
+}
+
+.footer-section .subscription-form h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #3b5d50;
+}
+
+.footer-section .subscription-form .form-control {
+    height: 50px;
+    border-radius: 10px;
+    font-family: "Inter", sans-serif;
+}
+
+.footer-section .subscription-form .form-control:active,
+.footer-section .subscription-form .form-control:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-color: #b35e04;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.footer-section .subscription-form .form-control::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
+.footer-section .subscription-form .form-control::-moz-placeholder {
+    font-size: 14px;
+}
+
+.footer-section .subscription-form .form-control:-ms-input-placeholder {
+    font-size: 14px;
+}
+
+.footer-section .subscription-form .form-control:-moz-placeholder {
+    font-size: 14px;
+}
+
+.footer-section .subscription-form .btn {
+    border-radius: 10px !important;
+}
+
+.footer-section .sofa-img {
+    position: absolute;
+    top: -300px;
+    z-index: 1;
+    right: -22%;
+}
+
+.footer-section .sofa-img img {
+    max-width: 400px;
+}
+
+.footer-section .links-wrap {
+    margin-top: 0px;
+}
+
+@media (min-width: 992px) {
+    .footer-section .links-wrap {
+        margin-top: 54px;
+    }
+}
+
+.footer-section .links-wrap ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section .footer-logo-wrap .footer-logo {
+    font-size: 32px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #e37005;
+}
+
+.footer-section .custom-social li {
+    margin: 2px;
+    display: inline-block;
+}
+
+.footer-section .custom-social li a {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+    background: #dce5e4;
+    color: #ff5900;
+    border-radius: 50%;
+}
+
+.footer-section .custom-social li a:hover {
+    background: #e86e04;
+    color: #ffffff;
+}
+
+.footer-section .border-top {
+    border-color: #dce5e4;
+}
+
+.footer-section .border-top.copyright {
+    font-size: 14px !important;
+}
+
+
+/* ============== css of contact us ============== */
+
+.untree_co-section {
+    padding: 7rem 0;
+}
+
+.form-control {
+    height: 50px;
+    border-radius: 10px;
+    font-family: "Inter", sans-serif;
+}
+
+.form-control:active,
+.form-control:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-color: #3b5d50;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.form-control::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
+.form-control::-moz-placeholder {
+    font-size: 14px;
+}
+
+.form-control:-ms-input-placeholder {
+    font-size: 14px;
+}
+
+.form-control:-moz-placeholder {
+    font-size: 14px;
+}
+
+.service {
+    line-height: 1.5;
+}
+
+.service .service-icon {
+    border-radius: 10px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50px;
+    flex: 0 0 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #006316;
+    margin-right: 20px;
+    color: #ffea00;
+}
+
+textarea {
+    height: auto !important;
+}
+
+.site-blocks-table {
+    overflow: auto;
+}
+
+.site-blocks-table .product-thumbnail {
+    width: 200px;
+}
+
+.site-blocks-table .btn {
+    padding: 2px 10px;
+}
+
+.site-blocks-table thead th {
+    padding: 30px;
+    text-align: center;
+    border-width: 0px !important;
+    vertical-align: middle;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
+}
+
+.site-blocks-table td {
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.site-blocks-table tbody tr:first-child td {
+    border-top: 1px solid #3b5d50 !important;
+}
+
+.site-blocks-table .btn {
+    background: none !important;
+    color: #000000;
+    border: none;
+    height: auto !important;
+}
+
+.site-block-order-table th {
+    border-top: none !important;
+    border-bottom-width: 1px !important;
+}
+
+.site-block-order-table td,
+.site-block-order-table th {
+    color: #000000;
+}
+
+.couponcode-wrap input {
+    border-radius: 10px !important;
+}
+
+.text-primary {
+    color: #3b5d50 !important;
+}
+
+
+/* ================ avis recent =================== */
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    display: inline-block;
+    font-size: 24px;
+    color: white;
+    background-color: green;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: orange;
+}
+
+.carousel-item {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.review-icon {
+    font-size: 50px;
+    color: green;
+    border: 3px solid green;
+    border-radius: 50%;
+    padding: 15px;
+    display: inline-block;
+}
+
+.review-text {
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+.review-stars {
+    color: gold;
+    margin-top: 10px;
+}
+
+.review-author {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.review-date {
+    font-size: 0.9rem;
+    color: gray;
+}
+
+
+/* ====================sidebar pour baf.html==================== */
+
+.sidebar {
+    background-color: gray;
+    padding: 0 0 0.5rem;
+    border-radius: 0.5em;
+}
+
+.nav-item {
+    font-size: 1.1rem;
+    margin: 0 0 2rem;
+}
+
+.nav-link {
+    color: #000000;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.collapse.show {
+    background-color: #e9ecef;
+}
+
+.collapse ul li {
+    margin-left: 20px;
+}
+
+.collapse ul li a {
+    font-size: 1rem;
+}
+
+.cad1 {
+    border: none;
+    background: gray;
+    color: black;
+}
+
+.cad1 .nav-link a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+.card img {
+    height: 200px;
+    object-fit: cover;
+}
+.card-title {
+    font-weight: bold;
+}
+.card{
+    border: none;
+}

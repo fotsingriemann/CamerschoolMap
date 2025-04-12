@@ -1,0 +1,502 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .header {
+        background-color: #007bff;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .filter-section {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .school-card {
+        transition: transform 0.2s;
+    }
+
+    .school-card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .footer {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        margin-top: 20px;
+    }
+
+    .btn-filter {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .btn-filter:hover {
+        background-color: #218838;
+    }
+
+    .card-body1 {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .card-header {
+        background-color: #f1f1f1;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-12 stretch-card">
+                <div class="card corona-gradient-card">
+                    <div class="card-body py-0 px-0 px-sm-3">
+                        <div class="row align-items-center">
+                            <div class="col-4 col-sm-3 col-xl-2">
+                                <img src="{% static 'backend/assets/images/Group126@2x.png' %}"
+                                    class="gradient-corona-img img-fluid" alt="">
+                            </div>
+                            <div class="col-12 col-sm-7 col-xl-8 p-0">
+                                <h4 class="mb-1 text-center text-white h1 mb-sm-0">Découvrez les Établissements
+                                    Scolaires du Cameroun sur
+                                    <strong>CamerSchoolMap</strong>
+                                </h4>
+                                <p class="mb-0 h4 text-white font-weight-normal text-center d-none d-sm-block"> Ici vous
+                                    avez tout les établissements scolaires du Cameroun
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="container my-4">
+            <p class="text-center h4">
+                Bienvenue sur notre plateforme dédiée aux établissements scolaires du Cameroun. Ce site vous permet de
+                consulter
+                et de découvrir une liste complète d'écoles, classées par région, département, type, et catégorie.
+                Simplifiez votre
+                recherche grâce à nos filtres intuitifs et accédez à des informations détaillées sur chaque
+                établissement
+                pour faire un choix éclairé.
+            </p>
+        </div>
+
+        <!-- Filtres et Barre de recherche -->
+        <div class="container filter-section text-center">
+            <button class="btn btn-filter" data-bs-toggle="collapse" data-bs-target="#filters">
+                <i class="fas fa-filter"></i> Afficher les filtres
+            </button>
+
+        <!-- Filtres -->
+        <div id="filters" class="collapse mt-3">
+            <form method="GET" action="{% url 'detail' %}">
+                <div class="row">
+                    <!-- Barre de recherche (AJOUTÉ ICI) -->
+                    <div class="col-md-12 mb-3">
+                        <input type="text" class="form-control" id="searchBar" name="nom"
+                            placeholder="Rechercher un établissement par nom..." value="{{ request.GET.nom }}">
+                    </div>
+        
+                    <!-- Ville et Département -->
+                    <div class="col-md-3">
+                        <input type="text" id="filter-ville" name="ville" class="form-control"
+                            placeholder="Entrez une ville" value="{{ request.GET.ville }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="filter-departement" name="departement" class="form-control"
+                            placeholder="Entrez un département" value="{{ request.GET.departement }}">
+                    </div>
+        
+                    <!-- Type et Catégorie -->
+                    <div class="col-md-3">
+                        <select id="filter-type" name="type" class="form-select">
+                            <option value="all" {% if request.GET.type == 'all' %}selected{% endif %}>Tous les types</option>
+                            <option value="primaire" {% if request.GET.type == 'primaire' %}selected{% endif %}>Primaire</option>
+                            <option value="secondaire" {% if request.GET.type == 'secondaire' %}selected{% endif %}>Secondaire</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="filter-categorie" name="categorie" class="form-select">
+                            <option value="all" {% if request.GET.categorie == 'all' %}selected{% endif %}>Toutes les catégories</option>
+                            <option value="public" {% if request.GET.categorie == 'public' %}selected{% endif %}>Public</option>
+                            <option value="prive" {% if request.GET.categorie == 'prive' %}selected{% endif %}>Privé</option>
+                        </select>
+                    </div>
+        
+                    <!-- Bouton pour appliquer les filtres -->
+                    <div class="col-md-12 mt-3">
+                        <button type="submit" class="btn btn-primary">Appliquer les filtres</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- Établissements -->
+        <div class="container my-4">
+            <h2 class="text-center">Établissements scolaire classe pas departement et ville</h2>
+
+            <div class="row">
+                {% for etablissement in etablissements %}
+                <div class="col-md-4 mb-4 school-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>{{ etablissement.nom }}</h5>
+                        </div>
+                        {% if etablissement.image_profil %}
+                            <img src="{{ etablissement.image_profil.url }}" class="card-img-top" alt="Image de l'établissement">
+                        {% else %}
+                            <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Image par défaut">
+                        {% endif %}
+                        <div class="card-body card-body1">
+                            <p class="card-text">
+                                <strong>Type :</strong> {{ etablissement.type }}<br>
+                                <strong>Catégorie :</strong> {{ etablissement.categorie }}<br>
+                                <strong>Ville :</strong> {{ etablissement.ville }}<br>
+                                <strong>Departement :</strong> {{ etablissement.departement }}<br>
+                                <strong>Contact :</strong> {{ etablissement.contact }}<br>
+                                <strong>Email :</strong> {{ etablissement.email }}<br>
+                            </p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{% url 'detail_etablissement' etablissement.id %}" class="btn btn-success">
+                                    Voir les détails
+                                </a>
+                                {% if request.user.role == "Administrateur" %}
+                                <button type="button" class="btn btn-danger btn-delete"
+                                    data-id="{{ etablissement.id }}">
+                                    Supprimer
+                                </button>
+                                <button type="button" class="btn btn-primary btn-edit" data-id="{{ etablissement.id }}"
+                                    data-nom="{{ etablissement.nom }}" data-ville="{{ etablissement.ville }}"
+                                    data-type="{{ etablissement.type }}" data-categorie="{{ etablissement.categorie }}"
+                                    data-adresse="{{ etablissement.adresse }}"
+                                    data-contact="{{ etablissement.contact }}" data-email="{{ etablissement.email }}"
+                                    data-bs-toggle="modal" data-bs-target="#editModal">
+                                    Modifier
+                                </button>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center">Aucun établissement enregistré pour le département de {{ etablissement.ville }}.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if etablissements.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ etablissements.previous_page_number }}"
+                            aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for page_num in etablissements.paginator.page_range %}
+                    <li class="page-item {% if etablissements.number == page_num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if etablissements.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ etablissements.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade modal-lg" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Modifier l'établissement</h5>
+                <button type="button" class="btn-close btn-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editNom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="editNom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editVille" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="editVille" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editType" class="form-label">Type</label>
+                        <select class="form-control" id="editType">
+                            <option value="public">Public</option>
+                            <option value="privé">Privé</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCategorie" class="form-label">Catégorie</label>
+                        <select class="form-control" id="editCategorie">
+                            <option value="primaire">Primaire</option>
+                            <option value="secondaire">Secondaire</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAdresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="editAdresse" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editContact" class="form-label">Contact</label>
+                        <input type="text" class="form-control" id="editContact">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail">
+                    </div>
+                    <div class="mb-3 bg-white">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <textarea id="editDescription" name="description" class="bg-white"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+      $('#editDescription').summernote({
+        placeholder: "Décrivez votre établissement en détail...",
+        tabsize: 10,
+        height: 300,
+        toolbar: [
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['fontsize', ['fontsize']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['picture', 'link', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']],
+          ['misc', ['undo', 'redo']],
+          ['style', ['style']],
+          ['format', ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']],
+          ['listStyle', ['ordered', 'unordered']],
+          ['customFormat', ['alphaUpper', 'alphaLower', 'romanUpper', 'romanLower']]
+        ]
+      });
+    });
+  </script>
+<!-- Script pour la recherche dynamique -->
+<script>
+    function searchEtablissements() {
+        const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+        const etablissementNames = document.querySelectorAll('.etablissement-name');
+
+        etablissementNames.forEach(function (etablissement) {
+            const name = etablissement.textContent.toLowerCase();
+            if (name.indexOf(searchQuery) > -1) {
+                etablissement.closest('.etablissement-item').style.display = '';
+            } else {
+                etablissement.closest('.etablissement-item').style.display = 'none';
+            }
+        });
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Remplir les champs de la modale quand on clique sur Modifier
+        document.querySelectorAll(".btn-edit").forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("editId").value = this.dataset.id;
+                document.getElementById("editNom").value = this.dataset.nom;
+                document.getElementById("editVille").value = this.dataset.ville;
+                document.getElementById("editType").value = this.dataset.type;
+                document.getElementById("editCategorie").value = this.dataset.categorie;
+                document.getElementById("editAdresse").value = this.dataset.adresse;
+                document.getElementById("editContact").value = this.dataset.contact;
+                document.getElementById("editEmail").value = this.dataset.email;
+                document.getElementById("editDescription").value = this.dataset.description;
+            });
+        });
+
+        // Gérer la soumission du formulaire
+        document.getElementById("editForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            let id = document.getElementById("editId").value;
+
+            let formData = {
+                nom: document.getElementById("editNom").value,
+                ville: document.getElementById("editVille").value,
+                type: document.getElementById("editType").value,
+                categorie: document.getElementById("editCategorie").value,
+                adresse: document.getElementById("editAdresse").value,
+                contact: document.getElementById("editContact").value,
+                email: document.getElementById("editEmail").value,
+                description: document.getElementById("editDescription").value
+            };
+
+            id = parseInt(id)
+
+            fetch(`/login/modifier_etablissement/${id}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire("Succès", "Établissement modifié avec succès !", "success")
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire("Erreur", data.error, "error");
+                    }
+                })
+                .catch(error => {
+                    Swal.fire("Erreur", "Une erreur est survenue lors de la modification.", "error");
+                });
+        });
+    });
+</script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".btn-delete").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Empêche le comportement par défaut
+
+                let etablissementId = this.getAttribute("data-id");
+
+                Swal.fire({
+                    title: "<span style='color:black;'>Êtes-vous sûr?</span>",
+                    text: "Cette action est irréversible !",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Oui, supprimer !"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/login/supprimer-etablissement/${etablissementId}/`, {
+    method: "POST",
+    headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({})
+})
+.then(response => {
+    if (response.redirected) {
+        // Utilisateur non connecté !
+        window.location.href = response.url; // Redirige vers la page login
+        return;
+    }
+    return response.json();
+})
+.then(data => {
+    if (data && data.success) {
+        Swal.fire("Supprimé !", "L'établissement a été supprimé.", "success")
+            .then(() => location.reload());
+    } else if (data) {
+        Swal.fire("Erreur", data.error, "error");
+    }
+})
+.catch(err => console.log(err));
+
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+    $(function() {
+        $("#searchBar").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{% url 'autocomplete-etablissements' %}",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data); // Remplit les suggestions
+                    }
+                });
+            },
+            minLength: 2, // Commence après 2 caractères
+            select: function(event, ui) {
+                // Quand l'utilisateur clique sur une suggestion
+                $("#searchBar").val(ui.item.value);
+                return false;
+            }
+        });
+    });
+    </script>
+    
+
+
+
+{% endblock %}
