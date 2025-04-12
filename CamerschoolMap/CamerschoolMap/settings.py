@@ -34,9 +34,6 @@ ALLOWED_HOSTS = ['*']
 # Optionnel pour compression
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -130,6 +127,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Fichiers statiques partagés
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# Application definition
 
 
 # Configuration des médias
