@@ -15,6 +15,9 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 # Charger le fichier .env
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,10 +42,19 @@ else:
 ALLOWED_HOSTS = ['*']
 # Optionnel pour compression
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dodxnwtjh',
+    'API_KEY': '529435687943815',
+    'API_SECRET': 'rurvNtKuQwQz6L7JC-JDdDZ59hA'
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
